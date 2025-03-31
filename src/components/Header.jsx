@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
 import Logo from "../sub-components/Logo";
 import SignIn from "../sub-components/SignIn";
+import Navigation from "../sub-components/Navigation";
+import MobileMenu from "./MobileMenu";
 const Header = () => {
   const [isFixed, setIsFixed] = useState(false);
+  const [openMenu,setOpenMenu] = useState(false);
 
   useEffect(() => {
     // function for update Header Position
@@ -24,36 +26,16 @@ const Header = () => {
   }, []);
 
   return (
-    <header
-      className={` flex p-5 justify-between items-center transition-colors duration-200 h-16 w-10/12  left-1/2 transform -translate-x-1/2
-      ${isFixed ? "fixed top-0 bg-amber-300 text-black" : "absolute top-5 bg-red-500 text-white "}
-       md:w-full  lg:w-10/12`}
-    >
+
+    <header className={`bg-red-500 w-full h-dvh flex justify-between items-center p-4 transition-colors duration-200  lg:left-1/2 lg:transform lg:-translate-x-1/2
+       ${isFixed ? "md:fixed top-0 bg-amber-300 text-black" : "md:absolute top-5 bg-red-500 text-white "}
+      md:h-16 lg:w-10/12`}>
       <Logo />
-      <nav className="sm:hidden md:block">
-        <ul className="flex font-semibold font-[Poppins] md:text-base md:gap-x-4 lg:text-lg lg:gap-x-8">
-        <li>
-          <NavLink to="/" className="hover:text-orange-600 ">  Home </NavLink>
-        
-        </li>
-        <li>
-        <NavLink to="/generate" className="hover:text-orange-600 ">  Generate </NavLink>
-          
-        </li>
-        <li>
-          <NavLink to="/analytics" className="hover:text-orange-600 ">
-          Analytics
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/about" className="hover:text-orange-600 ">
-          About us
-          </NavLink>
-        </li>
-        </ul>
-       
-      </nav>
+      <Navigation openMenu={openMenu} />
       <SignIn className="sm:hidden md:block" />
+      <button className="md:hidden cursor-pointer" onClick={()=> setOpenMenu(!openMenu)}>{openMenu ? "X":"O"}</button>
+   
+     
     </header>
   );
 };

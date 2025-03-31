@@ -6,7 +6,7 @@ import Header from './components/Header'
 function App() {
   
   return (
-    <div className='h-100'>
+    <div className='w-full min-h-[100vh] bg-blue-600' >
     <Header/>
     <Outlet/>
     </div>
