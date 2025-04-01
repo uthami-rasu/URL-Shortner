@@ -33,8 +33,8 @@ const Header = () => {
   }, [openMenu]);
 
   return (
-<div className={`z-3 absolute h-16 w-full  ${openMenu ? "h-dvh bg-white":""} md:flex md:flex-col md:justify-center md:items-center  ${isFixed ? "fixed overflow-hidden top-0 md:py-9 bg-white text-black" : "md:absolute md:top-5 md:left-0  text-white "}`}>
-    <header className={`w-full  flex justify-between items-center p-2 
+<div className={`z-3 absolute  h-16 w-full  ${openMenu ? "h-dvh bg-white":""} md:flex md:flex-col md:justify-center md:items-center  ${isFixed ? "fixed overflow-hidden top-0 md:py-9 bg-white text-black" : "md:absolute md:top-5 md:left-0  text-white "}`}>
+    <header className={`w-full flex justify-between items-center p-2 ${openMenu ? "border-b border-gray-400" : ""}
       md:h-16 lg:w-10/12`}>
       <Logo />
       <Navigation props="hidden md:block md:-translate-y-0" isfixed={isFixed}/>
