@@ -1,13 +1,14 @@
 import React from "react";
 import LinkGenrators from "./LinkGenrators";
+import Showcase from "./Showcase";
 
 const Home = () => {
   return (
     <section
       style={{ backgroundImage: "url(/stars.svg)" }}
-      className=" h-[100%] bg-[#031f39] bg-no-repeat bg-contain bg-[50%_10%] md:bg-[50%_2%] "
+      className=" relative top-30 h-[100%]  bg-[#031f39] bg-no-repeat bg-contain bg-[50%_10%] md:bg-[50%_2%] "
     >
-      <main className="relative w-full h-full">
+      <main className="relative w-full h-full flex flex-col">
         <div className="relative top-1/9 left-1/2 p-4 transform -translate-x-1/2 w-11/12 text-white font-[Lato] text-center flex flex-col gap-6 lg:w-9/12">
           <h1
             style={{
@@ -25,6 +26,8 @@ const Home = () => {
         </div>
 
         <LinkGenrators />
+
+        <Showcase />
       </main>
     </section>
   );

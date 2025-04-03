@@ -4,7 +4,7 @@ import Header from "./components/Header";
 
 function App() {
   return (
-    <div className="w-full h-[150vh] bg-red-500">
+    <div className="w-full  bg-[#031f39]">
       <Header />
       <Outlet />
     </div>

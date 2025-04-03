@@ -7,7 +7,7 @@ const LinkGenrators = () => {
     setShortUrlActive(!shortUrlActive);
   };
   return (
-    <div className="relative top-2/12 left-1/2 transform -translate-x-1/2 w-11/12">
+    <div className="mx-auto w-11/12 mt-5">
       <ul className="flex justify-center items-center gap-10">
         <li
           className={`p-2   rounded-2xl  ${shortUrlActive ? "bg-white" : ""} ${
