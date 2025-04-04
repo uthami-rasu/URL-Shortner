@@ -1,15 +1,15 @@
 @import "tailwindcss";
 
-
-
-a{
-    text-decoration: none;
+a {
+  text-decoration: none;
+}
+body {
+  background-color: #031f39;
+}
+li {
+  list-style: none;
 }
 
-li{
-    list-style: none;
-}
-
-#root{
-    min-height: 100vh;
+#root {
+  min-height: 100vh;
 }
