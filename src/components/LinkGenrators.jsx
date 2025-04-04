@@ -1,11 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const LinkGenrators = () => {
   const [shortUrlActive, setShortUrlActive] = useState(true);
 
+  const [url, setUrl] = useState("");
+
   const handleClick = () => {
     setShortUrlActive(!shortUrlActive);
   };
+
+  const handleInputChange = (e) => {
+    setUrl(e.target.value);
+  };
+
+  useEffect(() => {
+    console.log("URL", url);
+  }, [url]);
   return (
     <div className="mx-auto w-11/12 mt-5">
       <ul className="flex justify-center items-center gap-10">
@@ -80,6 +90,7 @@ const LinkGenrators = () => {
           <form className="flex flex-col justify-center gap-5 lg:gap-7">
             <input
               type="text"
+              value={url}
               placeholder="https://example.com/my-long-url"
               className={`h-14 border-2 border-gray-300 rounded-md mt-3 py-2 px-4 text-lg outline-0 
             focus:border-blue-700 focus:border-3 focus:shadow-sm focus:shadow-blue-100 
@@ -87,6 +98,7 @@ const LinkGenrators = () => {
               !shortUrlActive ? "lg:w-9/12" : ""
             }
             `}
+              onChange={handleInputChange}
             />
             <button
               className={`flex items-center px-4 py-2 justify-between bg-blue-700 rounded-2xl text-lg text-white font-semibold text-center md:w-1/2 lg:text-xl lg:py-4
