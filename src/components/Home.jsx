@@ -22,7 +22,7 @@ const Home = () => {
           <h5 className="text-lg font-medium leading-8 text-center md:text-xl lg:text-2xl lg:font-normal md:leading-9 ">
             Use our URL shortener, QR Codes, and landing pages to engage your
             audience and connect them to the right information. Build, edit, and
-            track everything inside the Bitly Connections Platform.
+            track everything inside the Razzly Connections Platform.
           </h5>
         </div>
 

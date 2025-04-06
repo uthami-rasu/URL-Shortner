@@ -5,6 +5,7 @@ import { title } from "framer-motion/client";
 import { cardData } from "../Utils/constants";
 
 const CardsSection = () => {
+  
   return (
     <div className="w-full h-full bg-white text-3xl mt-2 p-8 text-[#031f39] mx-auto">
       <h1 className="text-3xl font-bold w-11/12 mx-auto text-center mt-3 md:text-4xl lg:text-5xl lg:w-8/12">
