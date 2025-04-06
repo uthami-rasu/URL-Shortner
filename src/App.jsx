@@ -11,11 +11,15 @@ function App() {
   const location = useLocation();
   const bgColor = useSelector((store) => store.colors?.bgColor);
   const dispatch = useDispatch();
+
+  const curPath = location.pathname;
   // const bg_color = location.pathname === "/qrcode-generator" ? "#" : "#031f39";
 
   useEffect(() => {
     if (location.pathname === "/qrcode-generator") {
       dispatch(changeBgColor("#03051E"));
+    } else if (location.pathname === "/short-url-link") {
+      dispatch(changeBgColor("#141b1e"));
     } else {
       dispatch(changeBgColor("#031f39"));
     }

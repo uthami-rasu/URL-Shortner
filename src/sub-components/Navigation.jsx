@@ -19,10 +19,18 @@ const Navigation = ({ openMenu, props, isfixed }) => {
         </li>
         <li>
           <NavLink
+            to="/short-url-link"
+            className="hover:text-orange-600 duration-300"
+          >
+            ShortLink
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
             to="/qrcode-generator"
             className="hover:text-orange-600 duration-300"
           >
-            Qr Code
+            QrCode
           </NavLink>
         </li>
         <li>

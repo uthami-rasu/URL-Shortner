@@ -20,6 +20,10 @@ const appRouter = createBrowserRouter([
         path: "/qrcode-generator",
         element: <QrCodeGenerator />,
       },
+      {
+        path: "/short-url-link",
+        element: <QrCodeGenerator />,
+      },
     ],
   },
 ]);
