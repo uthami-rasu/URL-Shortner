@@ -46,6 +46,12 @@ const Navigation = ({ openMenu, props, isfixed }) => {
             About us
           </NavLink>
         </li>
+
+        {/* <li>
+          <NavLink to="/about" className="hover:text-orange-600 duration-300 ">
+            Log In
+          </NavLink>
+        </li> */}
       </ul>
     </nav>
   );

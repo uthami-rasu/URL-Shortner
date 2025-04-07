@@ -45,7 +45,7 @@ const QrCodeGenerator = () => {
         </div>
 
         <div
-          className={`relative bg-white w-11/12 mx-auto py-4 px-3 md:px-5 rounded-4xl font-[Lato] mt-5 lg:w-8/12
+          className={`relative bg-white w-11/12 mx-auto py-4 px-3 md:px-5 rounded-4xl font-[Lato] mt-5 xl:w-8/12
           ${isQrPage ? "lg:flex lg:justify-between" : "lg:block"}
           mb-10`}
         >
@@ -78,7 +78,9 @@ const QrCodeGenerator = () => {
                 onChange={handleInputChange}
               />
               <button
-                className={`flex items-center px-4 py-2 justify-between bg-blue-700 rounded-2xl text-lg text-white font-semibold text-center md:w-1/2 lg:text-xl lg:py-4 lg:w-3/6
+                className={`flex items-center px-4 py-2 justify-between bg-blue-700 rounded-2xl text-lg text-white font-semibold text-center md:w-1/2 lg:text-xl lg:py-4 lg:${
+                  isQrPage ? "w-4/6" : "w-2/6"
+                }
               `}
               >
                 <span className="flex-1">

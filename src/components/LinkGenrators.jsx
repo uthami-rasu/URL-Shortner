@@ -1,21 +1,60 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  updateError,
+  updateQrDestination,
+  updateShortLinkDestination,
+} from "../Utils/urlSlice";
+import { isValidUrl } from "../Utils/utils";
 
 const LinkGenrators = () => {
+  const shortDestination = useSelector(
+    (store) => store.urls?.short_link_destination
+  );
+  const qrDestination = useSelector((store) => store.urls?.qr_destination);
+
+  const qrError = useSelector((store) => store.urls?.qr_error);
+  const ShortLinkError = useSelector((store) => store.urls?.short_link_error);
+  const dispatch = useDispatch();
+  console.log("Urls", shortDestination, qrDestination);
   const [shortUrlActive, setShortUrlActive] = useState(true);
 
   const [url, setUrl] = useState("");
-
+  const inputRef = useRef("");
   const handleClick = () => {
     setShortUrlActive(!shortUrlActive);
   };
 
+  const isUrlValid = (url) => {
+    const hasError = isValidUrl(url);
+
+    dispatch(
+      updateError({
+        error: hasError ? hasError.error : "",
+        isQr: shortUrlActive ? null : true,
+      })
+    );
+  };
+
   const handleInputChange = (e) => {
-    setUrl(e.target.value);
+    if (shortUrlActive) {
+      isUrlValid(e.target.value);
+      dispatch(updateShortLinkDestination(e.target.value));
+      return;
+    }
+    isUrlValid(e.target.value);
+    dispatch(updateQrDestination(e.target.value));
   };
 
   useEffect(() => {
     console.log("URL", url);
-  }, [url]);
+    if (inputRef.current && shortUrlActive) {
+      inputRef.current.style.borderColor = ShortLinkError ? "red" : "blue";
+    }
+    if (inputRef.current && !shortUrlActive) {
+      inputRef.current.style.borderColor = qrError ? "red" : "blue";
+    }
+  }, [shortDestination, qrDestination]);
   return (
     <div className="mx-auto w-11/12 mt-5">
       <ul className="flex justify-center items-center gap-10">
@@ -26,7 +65,7 @@ const LinkGenrators = () => {
         >
           <button
             className="cursor-pointer flex justify-center gap-1 items-center"
-            onClick={handleClick}
+            onClick={() => setShortUrlActive(true)}
           >
             <img
               className="h-12 w-12"
@@ -49,7 +88,7 @@ const LinkGenrators = () => {
         >
           <button
             className="cursor-pointer flex  justify-center gap-1 items-center"
-            onClick={handleClick}
+            onClick={() => setShortUrlActive(false)}
           >
             <img
               className="h-12 w-12"
@@ -66,11 +105,11 @@ const LinkGenrators = () => {
         </li>
       </ul>
       <div
-        className={`relative bg-white py-7 px-6 rounded-4xl font-[Lato] mt-5 lg:w-8/12 lg:left-1/2 lg:transform lg:-translate-x-1/2 
-          ${!shortUrlActive ? "lg:flex lg:justify-between" : "lg:block"}
+        className={`relative bg-white py-7 px-6 rounded-4xl font-[Lato] mt-5 xl:w-8/12 xl:left-1/2 xl:transform xl:-translate-x-1/2 
+          ${!shortUrlActive ? "lg:flex lg:justify-between" : "xl:block"}
           `}
       >
-        <div className={`${!shortUrlActive ? "lg:w-8/12" : ""}  `}>
+        <div className={`flex-1 ${!shortUrlActive ? "xl:w-8/12" : ""}  `}>
           <h1
             className="text-2xl font-semibold text-[#031f39] lg:text-3xl"
             style={{ textShadow: "0px 1px 1px #031f39" }}
@@ -89,8 +128,9 @@ const LinkGenrators = () => {
           </h3>
           <form className="flex flex-col justify-center gap-5 lg:gap-7">
             <input
+              ref={inputRef}
               type="text"
-              value={url}
+              value={shortUrlActive ? shortDestination : qrDestination}
               placeholder="https://example.com/my-long-url"
               className={`h-14 border-2 border-gray-300 rounded-md mt-3 py-2 px-4 text-lg outline-0 
             focus:border-blue-700 focus:border-3 focus:shadow-sm focus:shadow-blue-100 
@@ -100,9 +140,12 @@ const LinkGenrators = () => {
             `}
               onChange={handleInputChange}
             />
+            <span className="mx-2 text-lg font-semibold text-red-600">
+              {shortUrlActive ? ShortLinkError : qrError}
+            </span>
             <button
               className={`flex items-center px-4 py-2 justify-between bg-blue-700 rounded-2xl text-lg text-white font-semibold text-center md:w-1/2 lg:text-xl lg:py-4
-              ${!shortUrlActive ? "w-12/12" : "lg:w-2/6"}
+              ${!shortUrlActive ? "w-12/12" : "lg :w-4/6"}
               `}
             >
               <span className="flex-1">
