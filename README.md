@@ -1,11 +1,19 @@
-# URL Shortner App 
+# URL Shortner App
 
+# Heading
 
-# Heading 
-    - Sticky Header  , Transparent 
-    - Logo Component 
+    - Sticky Header  , Transparent
+    - Logo Component
     - NavLinks : should be at the center
         - Home, QR Code, Short URL, Analytics : simple , hover -> color change
-    - Logout : more shadow on right 
+    - Logout : more shadow on right
 
-#
+# Analytics Page
+
+# Chart Title Chart Type Data Example
+
+- 1 Total Clicks (Last 7 Days) Line Chart {"2025-04-01": 5, "2025-04-02": 8}
+- 2 Clicks by Country Pie Chart {"India": 20, "USA": 15}
+- 3 Clicks by Referrer Bar Chart {"facebook.com": 12, "whatsapp.com": 5}
+- 4 Device Type (Mobile/Desktop) Pie Chart {"Mobile": 25, "Desktop": 10}
+- 5 Browser Usage (Chrome/Safari) Bar Chart {"Chrome": 20, "Safari": 8}

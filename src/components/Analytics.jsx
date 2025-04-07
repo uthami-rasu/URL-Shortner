@@ -1,9 +1,6 @@
 import React from "react";
-import LinkGenrators from "./LinkGenrators";
-import Showcase from "./Showcase";
-import CardsSection from "./CardsSection";
 
-const Home = () => {
+const Analytics = () => {
   return (
     <section
       style={{
@@ -20,22 +17,20 @@ const Home = () => {
             }}
             className="text-3xl font-extrabold md:text-4xl lg:text-5xl"
           >
-            Build stronger digital connections
+            Track, Analyze, and Optimize Your Links
           </h1>
           <h5 className="text-lg font-medium leading-8 text-center md:text-xl lg:text-2xl lg:font-normal md:leading-9 ">
-            Use our URL shortener, QR Codes, and landing pages to engage your
-            audience and connect them to the right information. Build, edit, and
-            track everything inside the Razzly Connections Platform.
+            Gain deep insights with real-time analytics on clicks, locations,
+            devices, and referrers. Make smarter decisions and grow your
+            audience faster with Razzly Analytics.
           </h5>
         </div>
-
-        <LinkGenrators />
-
-        <Showcase />
-        <CardsSection />
+        <div className="w-full bg-white">
+          <h1>Dummy</h1>
+        </div>
       </main>
     </section>
   );
 };
 
-export default Home;
+export default Analytics;

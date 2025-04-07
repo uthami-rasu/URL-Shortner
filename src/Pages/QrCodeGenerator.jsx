@@ -56,7 +56,10 @@ const QrCodeGenerator = () => {
   }, [ShortLinkError, qrError, isQrPage]);
   return (
     <section
-      style={{ backgroundImage: "url(/stars.svg)" }}
+      style={{
+        backgroundImage: "url(/stars.svg)",
+        animation: "bgScale 1s infinite alternate",
+      }}
       className={`mt-30 h-[100%]  bg-[${bgColor}] bg-no-repeat bg-contain bg-[50%_10%] md:bg-[50%_2%] `}
     >
       <main className="relative w-full h-full flex flex-col">

@@ -13,3 +13,12 @@ li {
 #root {
   min-height: 100vh;
 }
+
+@keyframes bgScale {
+  0% {
+    background-size: 99%;
+  }
+  100% {
+    background-size: 100%;
+  }
+}
