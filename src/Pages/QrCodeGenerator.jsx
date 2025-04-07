@@ -1,23 +1,59 @@
-import React, { useDebugValue } from "react";
+import React, { useDebugValue, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateQrDestination } from "../Utils/urlSlice";
+import {
+  updateError,
+  updateQrDestination,
+  updateShortLinkDestination,
+} from "../Utils/urlSlice";
 import DashboardCard from "../sub-components/DashboardCard";
 import { useLocation } from "react-router-dom";
+import { isValidUrl } from "../Utils/utils";
 
 const QrCodeGenerator = () => {
   const bgColor = useSelector((store) => store.colors.bgColor);
-
-  const qrUrl = useSelector((store) => store.urlSlice?.qr_destination);
-
+  const inputRef = useRef();
+  const shortDestination = useSelector(
+    (store) => store.urls?.short_link_destination
+  );
+  const qrDestination = useSelector((store) => store.urls?.qr_destination);
   const location = useLocation();
 
   const isQrPage = location.pathname === "/qrcode-generator";
 
+  const qrError = useSelector((store) => store.urls?.qr_error);
+  const ShortLinkError = useSelector((store) => store.urls?.short_link_error);
+
   const dispatch = useDispatch();
 
+  const isUrlValid = (url) => {
+    const hasError = isValidUrl(url);
+
+    dispatch(
+      updateError({
+        error: hasError ? hasError.error : "",
+        isQr: !isQrPage ? null : true,
+      })
+    );
+  };
   const handleInputChange = (e) => {
+    if (!isQrPage) {
+      isUrlValid(e.target.value);
+      dispatch(updateShortLinkDestination(e.target.value));
+      return;
+    }
+    isUrlValid(e.target.value);
     dispatch(updateQrDestination(e.target.value));
   };
+
+  useEffect(() => {
+    // console.log("URL", url);
+    if (inputRef.current && !isQrPage) {
+      inputRef.current.style.borderColor = ShortLinkError ? "red" : "blue";
+    }
+    if (inputRef.current && isQrPage) {
+      inputRef.current.style.borderColor = qrError ? "red" : "blue";
+    }
+  }, [ShortLinkError, qrError, isQrPage]);
   return (
     <section
       style={{ backgroundImage: "url(/stars.svg)" }}
@@ -66,17 +102,31 @@ const QrCodeGenerator = () => {
                 ? "Enter your QR Code destination"
                 : "Paste your long link here"}
             </h3>
-            <form className="flex flex-col justify-center gap-5 lg:gap-7">
+            <form className="flex flex-col justify-center gap-x-5 gap-y-4 lg:gap-7">
               <input
                 type="text"
-                value={qrUrl}
+                ref={inputRef}
+                value={isQrPage ? qrDestination : shortDestination}
                 placeholder="https://example.com/my-long-url"
                 className={`h-14 border-2 border-gray-300 rounded-md mt-3 py-2 px-4 text-lg outline-0 
             focus:border-blue-700 focus:border-3 focus:shadow-sm focus:shadow-blue-100 
             hover:bg-gray-50 hover:border-black hover:border
+            ${
+              !isQrPage
+                ? ShortLinkError
+                  ? "shadow-[0_0_5px_red]"
+                  : "focus:shadow-[0_0_3px_blue]"
+                : qrError
+                ? "shadow-[0_0_5px_red]"
+                : "focus:shadow-[0_0_3px_blue]"
+            }
+            
             `}
                 onChange={handleInputChange}
               />
+              <span className="mx-2 text-lg font-semibold text-red-600 font-[Lato]">
+                {!isQrPage ? ShortLinkError : qrError}
+              </span>
               <button
                 className={`flex items-center px-4 py-2 justify-between bg-blue-700 rounded-2xl text-lg text-white font-semibold text-center md:w-1/2 lg:text-xl lg:py-4 lg:${
                   isQrPage ? "w-4/6" : "w-2/6"

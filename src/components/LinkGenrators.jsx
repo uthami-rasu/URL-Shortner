@@ -54,7 +54,7 @@ const LinkGenrators = () => {
     if (inputRef.current && !shortUrlActive) {
       inputRef.current.style.borderColor = qrError ? "red" : "blue";
     }
-  }, [shortDestination, qrDestination]);
+  }, [ShortLinkError, qrError, shortUrlActive]);
   return (
     <div className="mx-auto w-11/12 mt-5">
       <ul className="flex justify-center items-center gap-10">
@@ -133,14 +133,22 @@ const LinkGenrators = () => {
               value={shortUrlActive ? shortDestination : qrDestination}
               placeholder="https://example.com/my-long-url"
               className={`h-14 border-2 border-gray-300 rounded-md mt-3 py-2 px-4 text-lg outline-0 
-            focus:border-blue-700 focus:border-3 focus:shadow-sm focus:shadow-blue-100 
+            focus:border-blue-700 focus:border-2
             hover:bg-gray-50 hover:border-black hover:border ${
               !shortUrlActive ? "lg:w-9/12" : ""
-            }
+            } ${
+                shortUrlActive
+                  ? ShortLinkError
+                    ? "shadow-[0_0_5px_red]"
+                    : "focus:shadow-[0_0_3px_blue]"
+                  : qrError
+                  ? "shadow-[0_0_5px_red]"
+                  : "focus:shadow-[0_0_3px_blue]"
+              }
             `}
               onChange={handleInputChange}
             />
-            <span className="mx-2 text-lg font-semibold text-red-600">
+            <span className="mx-2 text-lg font-semibold text-red-600 font-[Lato]">
               {shortUrlActive ? ShortLinkError : qrError}
             </span>
             <button

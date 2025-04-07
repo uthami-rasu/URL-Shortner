@@ -18,7 +18,7 @@ const urlSlicer = createSlice({
         updateError: (state, action) => {
 
             console.log("State Updated", action.payload);
-            if (action?.isQr) {
+            if (action.payload?.isQr) {
                 state.qr_error = action.payload?.error;
                 return
             }

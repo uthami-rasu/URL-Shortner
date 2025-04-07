@@ -2,15 +2,18 @@ import React, { useEffect, useState } from "react";
 import Logo from "../sub-components/Logo";
 import SignIn from "../sub-components/SignIn";
 import Navigation from "../sub-components/Navigation";
+import { useLocation } from "react-router-dom";
 
 const Header = () => {
   const [isFixed, setIsFixed] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
 
+  const location = useLocation();
+
   useEffect(() => {
     // function for update Header Position
     const handleScroll = () => {
-      console.log(window.scrollY);
+      // console.log(window.scrollY);
       if (window.scrollY > 18) {
         setIsFixed(true);
       } else {
@@ -32,6 +35,12 @@ const Header = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [openMenu]);
+
+  useEffect(() => {
+    if (openMenu) {
+      setOpenMenu(!openMenu);
+    }
+  }, [location]);
 
   return (
     <div
