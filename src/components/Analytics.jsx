@@ -3,6 +3,11 @@ import ChartWrapper from "./ChartWrapper";
 import LineChart from "./LineChart";
 import PieChart from "./PieChart";
 import BarChart from "./BarChart";
+import {
+  BAR_COLORS,
+  COLORS_PALETTE_1,
+  COLORS_PALETTE_2,
+} from "../Utils/constants";
 
 const Analytics = () => {
   return (
@@ -35,16 +40,16 @@ const Analytics = () => {
               <LineChart data={""} colors="" />
             </ChartWrapper>
             <ChartWrapper Title={"Referar"}>
-              <PieChart />
+              <PieChart colors={COLORS_PALETTE_2} />
             </ChartWrapper>
             <ChartWrapper Title={"Countries"}>
-              <BarChart />
+              <BarChart colors={BAR_COLORS.slice(5, 10)} />
             </ChartWrapper>
             <ChartWrapper Title={"Device Type"}>
-              <PieChart />
+              <PieChart colors={COLORS_PALETTE_1} />
             </ChartWrapper>
             <ChartWrapper Title={"Browser Type"}>
-              <BarChart />
+              <BarChart colors={BAR_COLORS.slice(1, 15)} />
             </ChartWrapper>
           </div>
         </div>

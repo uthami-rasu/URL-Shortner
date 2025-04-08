@@ -64,7 +64,7 @@ const LineChartDiagram = () => {
           <Line
             type="linear"
             dataKey="clicks"
-            stroke="#6366F1" // Your primary color (Tailwind indigo-500)
+            stroke="#4F46E5"  
             strokeWidth={3}
             dot={{ r: 5 }}
             activeDot={{ r: 8 }}

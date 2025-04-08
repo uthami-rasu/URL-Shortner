@@ -25,4 +25,14 @@ const cardData = [
     },
 ];
 
-export { cardData };
+const COLORS_PALETTE_1 = ["#2563EB", "#38BDF8", "#22C55E", "#FB923C", "#EF4444"];
+
+const COLORS_PALETTE_2 = ["#14B8A6", "#FACC15", "#A855F7", "#F43F5E"]
+
+
+const BAR_COLORS = [
+    "#2563EB", "#38BDF8", "#14B8A6", "#22C55E",
+    "#A3E635", "#FACC15", "#FB923C", "#F43F5E",
+    "#A855F7", "#6366F1"
+];
+export { cardData, COLORS_PALETTE_1, COLORS_PALETTE_2, BAR_COLORS };

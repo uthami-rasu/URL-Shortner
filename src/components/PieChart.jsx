@@ -8,9 +8,8 @@ const countryData = [
 ];
 
 // You can define your own colors
-const COLORS = ["#6366F1", "#34D399"]; // Indigo-500 and Green-400 from Tailwind
 
-const CountryPieChart = () => {
+const CountryPieChart = ({ colors }) => {
   return (
     <div className="w-full h-[350px] lg:h-[350px]">
       <ResponsiveContainer width="100%" height="100%">
@@ -29,7 +28,7 @@ const CountryPieChart = () => {
             {countryData.map((entry, index) => (
               <Cell
                 key={`cell-${index}`}
-                fill={COLORS[index % COLORS.length]}
+                fill={colors[index % colors?.length]}
               />
             ))}
           </Pie>

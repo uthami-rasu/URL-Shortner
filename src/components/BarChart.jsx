@@ -12,11 +12,14 @@ import {
 const referrerData = [
   { country: "India", clicks: 12 },
   { country: "USA", clicks: 12 },
+  { country: "India", clicks: 12 },
+  { country: "USA", clicks: 12 },
+  { country: "India", clicks: 12 },
 ];
 
-const COLORS = ["#6366F1", "#34D399"]; // Indigo-500 and Green-400
+const COLORS = ["#14B8A6", "#FACC15", "#A855F7", "#F43F5E"]; // Indigo-500 and Green-400
 
-const CustomBarChart = () => {
+const CustomBarChart = ({ colors }) => {
   return (
     <div className="w-full h-[350px] lg:h-[350px]">
       <ResponsiveContainer width="100%" height="100%">
@@ -34,7 +37,7 @@ const CustomBarChart = () => {
             {referrerData.map((entry, index) => (
               <Cell
                 key={`cell-${index}`}
-                fill={COLORS[index % COLORS.length]}
+                fill={colors[index % colors?.length]}
               />
             ))}
           </Bar>
