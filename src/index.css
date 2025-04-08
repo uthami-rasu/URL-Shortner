@@ -9,16 +9,18 @@ body {
 li {
   list-style: none;
 }
-
+.active {
+  color: orangered;
+}
 #root {
   min-height: 100vh;
 }
 
 @keyframes bgScale {
   0% {
-    background-size: 99%;
+    background-size: 98%;
   }
   100% {
-    background-size: 100%;
+    background-size: 99.5%;
   }
 }
