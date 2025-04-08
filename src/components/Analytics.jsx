@@ -1,4 +1,8 @@
 import React from "react";
+import ChartWrapper from "./ChartWrapper";
+import LineChart from "./LineChart";
+import PieChart from "./PieChart";
+import BarChart from "./BarChart";
 
 const Analytics = () => {
   return (
@@ -25,8 +29,24 @@ const Analytics = () => {
             audience faster with Razzly Analytics.
           </h5>
         </div>
-        <div className="w-full bg-white">
-          <h1>Dummy</h1>
+        <div className="w-full bg-white/95 py-3 px-3 ">
+          <div className="w-full mx-auto p-1 grid grid-cols-1 xl:grid-cols-2 gap-x-5 gap-y-20 ">
+            <ChartWrapper Title={"Total Clicks"}>
+              <LineChart data={""} colors="" />
+            </ChartWrapper>
+            <ChartWrapper Title={"Referar"}>
+              <PieChart />
+            </ChartWrapper>
+            <ChartWrapper Title={"Countries"}>
+              <BarChart />
+            </ChartWrapper>
+            <ChartWrapper Title={"Device Type"}>
+              <PieChart />
+            </ChartWrapper>
+            <ChartWrapper Title={"Browser Type"}>
+              <BarChart />
+            </ChartWrapper>
+          </div>
         </div>
       </main>
     </section>
