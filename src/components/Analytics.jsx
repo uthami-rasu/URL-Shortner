@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ChartWrapper from "./ChartWrapper";
 import LineChart from "./LineChart";
 import PieChart from "./PieChart";
@@ -8,8 +8,23 @@ import {
   COLORS_PALETTE_1,
   COLORS_PALETTE_2,
 } from "../Utils/constants";
+import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
+import { fetchData } from "../Utils/api";
+import { h1 } from "framer-motion/client";
 
 const Analytics = () => {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["visits"],
+    queryFn: fetchData,
+  });
+
+  if (isLoading) {
+    return <h1>Loading</h1>;
+  }
+  if (error) {
+    return <h1>Error Occured</h1>;
+  }
   return (
     <section
       style={{

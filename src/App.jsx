@@ -7,7 +7,10 @@ import { useEffect } from "react";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import appStore from "./Utils/store";
 import { changeBgColor } from "./Utils/colorSlice";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 function App() {
+  const queryClient = new QueryClient();
+
   const location = useLocation();
   const bgColor = useSelector((store) => store.colors?.bgColor);
   const dispatch = useDispatch();
@@ -30,13 +33,15 @@ function App() {
   }, [bgColor]); // when bgColor actually changes, apply to body
 
   return (
-    <div className={`w-full  flex flex-col h-auto bg-[${bgColor}]`}>
-      <Header />
-      <div className="flex-grow">
-        <Outlet />
+    <QueryClientProvider client={queryClient}>
+      <div className={`w-full  flex flex-col h-auto bg-[${bgColor}]`}>
+        <Header />
+        <div className="flex-grow">
+          <Outlet />
+        </div>
+        <Footer className="mt-auto" />
       </div>
-      <Footer className="mt-auto" />
-    </div>
+    </QueryClientProvider>
   );
 }
 
