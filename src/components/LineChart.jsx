@@ -20,7 +20,7 @@ const data = [
   { date: "2025-04-07", clicks: 12 },
 ];
 
-const LineChartDiagram = () => {
+const LineChartDiagram = ({ Data }) => {
   const [angle, setAngle] = useState(0);
 
   useEffect(() => {
@@ -44,7 +44,7 @@ const LineChartDiagram = () => {
     <div className="w-full h-[350px] lg:h-[350px]">
       <ResponsiveContainer width="100%" height="100%">
         <LineChart
-          data={data}
+          data={Data ? Data : data}
           margin={{ top: 10, right: 30, left: -20, bottom: 40 }}
           className="p-2"
         >
@@ -64,7 +64,7 @@ const LineChartDiagram = () => {
           <Line
             type="linear"
             dataKey="clicks"
-            stroke="#4F46E5"  
+            stroke="#4F46E5"
             strokeWidth={3}
             dot={{ r: 5 }}
             activeDot={{ r: 8 }}

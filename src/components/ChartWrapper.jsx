@@ -8,14 +8,16 @@ const ChartWrapper = ({ children, Title, BottomTitle }) => {
         boxShadow: "0px 0px 1px gray",
       }}
     >
-      <h1 className="text-xl font-semibold text-[#031f39] font-[Poppins] text-left ml-2 mt-2">
+      <h1 className="text-xl font-semibold text-[#031f39] text-center font-[Poppins]  ml-2 mt-2">
         {Title}
       </h1>
       <div className="mt-5">{children}</div>
+      <br></br>
+      <br></br>
 
-      <h2 className="text-lg text-center text-[#031f39] font-medium font-[Poppins] mt-2 pb-3">
+      {/* <h2 className="text-lg text-center text-[#031f39] font-medium font-[Poppins] mt-2 pb-3">
         {BottomTitle || "Example By Last 7 Days"}
-      </h2>
+      </h2> */}
     </div>
   );
 };

@@ -9,13 +9,16 @@ const countryData = [
 
 // You can define your own colors
 
-const CountryPieChart = ({ colors }) => {
+const CountryPieChart = ({ data, colors }) => {
+  if (!data) {
+    return; 
+  }
   return (
     <div className="w-full h-[350px] lg:h-[350px]">
       <ResponsiveContainer width="100%" height="100%">
         <PieChart className="p-5">
           <Pie
-            data={countryData}
+            data={data}
             dataKey="value"
             nameKey="name"
             cx="50%"
@@ -25,7 +28,7 @@ const CountryPieChart = ({ colors }) => {
             label
             className="text-md font-bold "
           >
-            {countryData.map((entry, index) => (
+            {data.map((entry, index) => (
               <Cell
                 key={`cell-${index}`}
                 fill={colors[index % colors?.length]}
