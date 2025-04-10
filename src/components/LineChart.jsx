@@ -9,6 +9,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import ChartShimmer from "../sub-components/chartShimmer";
 
 const data = [
   { date: "2025-04-01", clicks: 5 },
@@ -20,7 +21,7 @@ const data = [
   { date: "2025-04-07", clicks: 12 },
 ];
 
-const LineChartDiagram = ({ Data }) => {
+const LineChartDiagram = ({ isLoading, Data }) => {
   const [angle, setAngle] = useState(0);
 
   useEffect(() => {
@@ -42,35 +43,39 @@ const LineChartDiagram = ({ Data }) => {
 
   return (
     <div className="w-full h-[350px] lg:h-[350px]">
-      <ResponsiveContainer width="100%" height="100%">
-        <LineChart
-          data={Data ? Data : data}
-          margin={{ top: 10, right: 30, left: -20, bottom: 40 }}
-          className="p-2"
-        >
-          <CartesianGrid strokeDasharray="3 3" className="opacity-50" />
-          <XAxis
-            dataKey="date"
-            interval={0}
-            className="text-[12px] font-semibold"
-            tick={{
-              angle: angle,
-              dy: 10,
-              textAnchor: angle ? "end" : "middle",
-            }}
-          />
-          <YAxis className="text-[15px] font-semibold" />
-          <Tooltip className="font-semibold" />
-          <Line
-            type="linear"
-            dataKey="clicks"
-            stroke="#4F46E5"
-            strokeWidth={3}
-            dot={{ r: 5 }}
-            activeDot={{ r: 8 }}
-          />
-        </LineChart>
-      </ResponsiveContainer>
+      {isLoading ? (
+        <ChartShimmer />
+      ) : (
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart
+            data={Data ? Data : data}
+            margin={{ top: 10, right: 30, left: -20, bottom: 40 }}
+            className="p-2"
+          >
+            <CartesianGrid strokeDasharray="3 3" className="opacity-50" />
+            <XAxis
+              dataKey="date"
+              interval={0}
+              className="text-[12px] font-semibold"
+              tick={{
+                angle: angle,
+                dy: 10,
+                textAnchor: angle ? "end" : "middle",
+              }}
+            />
+            <YAxis className="text-[15px] font-semibold" />
+            <Tooltip className="font-semibold" />
+            <Line
+              type="linear"
+              dataKey="clicks"
+              stroke="#4F46E5"
+              strokeWidth={3}
+              dot={{ r: 5 }}
+              activeDot={{ r: 8 }}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      )}
     </div>
   );
 };
