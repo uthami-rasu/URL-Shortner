@@ -21,7 +21,7 @@ const data = [
   { date: "2025-04-07", clicks: 12 },
 ];
 
-const LineChartDiagram = ({ isLoading, Data }) => {
+const LineChartDiagram = ({ loading, Data }) => {
   const [angle, setAngle] = useState(0);
 
   useEffect(() => {
@@ -43,12 +43,12 @@ const LineChartDiagram = ({ isLoading, Data }) => {
 
   return (
     <div className="w-full h-[350px] lg:h-[350px]">
-      {isLoading ? (
+      {loading ? (
         <ChartShimmer />
       ) : (
         <ResponsiveContainer width="100%" height="100%">
           <LineChart
-            data={Data ? Data : data}
+            data={Data}
             margin={{ top: 10, right: 30, left: -20, bottom: 40 }}
             className="p-2"
           >

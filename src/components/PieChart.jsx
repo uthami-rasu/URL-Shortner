@@ -10,19 +10,16 @@ const countryData = [
 
 // You can define your own colors
 
-const CountryPieChart = ({ isLoading, data, colors }) => {
-  if (!data) {
-    return;
-  }
+const CountryPieChart = ({ loading, data, colors }) => {
   return (
     <div className="w-full h-[350px] lg:h-[350px]">
-      {isLoading ? (
+      {loading ? (
         <ChartShimmer />
       ) : (
         <ResponsiveContainer width="100%" height="100%">
           <PieChart className="p-5">
             <Pie
-              data={data}
+              data={data || []}
               dataKey="value"
               nameKey="name"
               cx="50%"
@@ -32,7 +29,7 @@ const CountryPieChart = ({ isLoading, data, colors }) => {
               label
               className="text-md font-bold "
             >
-              {data.map((entry, index) => (
+              {data?.map((entry, index) => (
                 <Cell
                   key={`cell-${index}`}
                   fill={colors[index % colors?.length]}

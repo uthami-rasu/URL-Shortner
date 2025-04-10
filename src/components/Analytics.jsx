@@ -13,33 +13,28 @@ import { fetchData } from "../Utils/api";
 
 import { useDispatch, useSelector } from "react-redux";
 import { updateData } from "../Utils/analysis";
+import Filter from "./Filter";
 
 const Analytics = () => {
   const lineChartDataSelector = useSelector(
     (store) => store.analysis.lineChartData
   );
-
+  const selectedoptions = useSelector((store) => store.filters.selectedOptions);
   const dataSelector = useSelector((store) => store.analysis.data);
   console.log("lineChartData", lineChartDataSelector);
   const dispatch = useDispatch();
   const { data, isLoading, error } = useQuery({
-    queryKey: ["visits"],
-    queryFn: fetchData,
+    queryKey: ["visits", selectedoptions],
+    queryFn: ({ queryKey: [, selectedoptions] }) => fetchData(selectedoptions),
   });
 
   useEffect(() => {
-    if (data?.data?.data) {
-      dispatch(updateData(data?.data?.data));
+    if (data?.data) {
+      dispatch(updateData(data?.data));
     }
   }, [data, dispatch]);
 
-  // if (isLoading) {
-  //   return <h1>Loading</h1>;
-  // }
-  if (error) {
-    return <h1>Error Occured</h1>;
-  }
-  console.log(data);
+  console.log("isError", error);
   return (
     <section
       style={{
@@ -65,38 +60,41 @@ const Analytics = () => {
           </h5>
         </div>
         <div className="w-full bg-white/95 py-3 px-3 ">
+          <div className="w-full">
+            <Filter />
+          </div>
           <div className="w-full mx-auto p-1 grid grid-cols-1 xl:grid-cols-2 gap-x-5 gap-y-20 ">
             <ChartWrapper Title={"Total Clicks by last 7 days"}>
               <LineChart
-                loading={isLoading}
+                loading={isLoading || error?.message === "Network Error"}
                 Data={dataSelector?.lineChartData}
                 colors=""
               />
             </ChartWrapper>
             <ChartWrapper Title={"Top Platforms Visitors Came From"}>
               <PieChart
-                loading={isLoading}
+                loading={isLoading || error?.message === "Network Error"}
                 data={dataSelector?.referrerData}
                 colors={COLORS_PALETTE_2}
               />
             </ChartWrapper>
             <ChartWrapper Title={"Top Visitors By Countries"}>
               <BarChart
-                loading={isLoading}
+                loading={isLoading || error?.message === "Network Error"}
                 data={dataSelector?.countryData}
                 colors={BAR_COLORS.slice(5, 10)}
               />
             </ChartWrapper>
             <ChartWrapper Title={"Device Type"}>
               <PieChart
-                loading={isLoading}
+                loading={isLoading || error?.message === "Network Error"}
                 data={dataSelector?.deviceTypeData}
                 colors={COLORS_PALETTE_1}
               />
             </ChartWrapper>
             <ChartWrapper Title={"Browser Type"}>
               <BarChart
-                loading={isLoading}
+                loading={isLoading || error?.message === "Network Error"}
                 data={dataSelector?.browserTypeData}
                 colors={BAR_COLORS.slice(1, 15)}
               />

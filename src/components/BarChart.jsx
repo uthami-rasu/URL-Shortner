@@ -20,10 +20,10 @@ const referrerData = [
 
 const COLORS = ["#14B8A6", "#FACC15", "#A855F7", "#F43F5E"]; // Indigo-500 and Green-400
 
-const CustomBarChart = ({ isLoading, data, colors }) => {
+const CustomBarChart = ({ loading, data, colors }) => {
   return (
     <div className="w-full h-[350px] lg:h-[350px]">
-      {isLoading ? (
+      {loading ? (
         <ChartShimmer />
       ) : (
         <ResponsiveContainer width="100%" height="100%">

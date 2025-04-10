@@ -16,8 +16,13 @@ const analysisDataSlice = createSlice({
 
         updateData: (state, action) => {
 
-            state.data = action.payload;
-            state.data.lineChartData = fillMissedDates(action.payload.lineChartData)
+
+            state.data = {
+                ...action.payload,
+                lineChartData: fillMissedDates(action.payload?.lineChartData || []),
+            };
+
+
         }
     }
 

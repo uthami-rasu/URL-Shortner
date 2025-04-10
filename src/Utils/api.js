@@ -1,15 +1,19 @@
 import axios from "axios";
 
-const fetchData = async () => {
-    const result = await axios.post(
+const fetchData = async (selectedOptions = []) => {
+
+    const shortUrls = selectedOptions.map((s) => s.value)
+    const payload = {
+        userId: "3",
+        reqShortUrls: shortUrls.length > 0 ? shortUrls : [],
+    };
+
+    const response = await axios.post(
         "http://localhost:8000/api/v1/bulk-analysis",
-        {
-            userId: "3",
-        }
+        payload
     );
 
-    return result;
+    return response.data;
 };
 
-
-export { fetchData }
+export { fetchData };
