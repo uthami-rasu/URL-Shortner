@@ -2,13 +2,23 @@ import React, { useEffect, useState } from "react";
 import Logo from "../sub-components/Logo";
 import SignIn from "../sub-components/SignIn";
 import Navigation from "../sub-components/Navigation";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { addUser, removeUser } from "../Utils/authSlice";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../Utils/firebase";
 
 const Header = () => {
   const [isFixed, setIsFixed] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
 
+  const isLogin = useSelector((store) => store.auth.user?.isLogin);
+
   const location = useLocation();
+
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     // function for update Header Position
@@ -42,6 +52,8 @@ const Header = () => {
     }
   }, [location]);
 
+ 
+
   return (
     <div
       className={`z-3 absolute  h-16 w-full  ${
@@ -63,18 +75,20 @@ const Header = () => {
           props="hidden md:block md:-translate-y-0"
           isfixed={isFixed}
         />
-        <NavLink
-          to="/auth/login"
-          className={`${
-            openMenu
-              ? "absolute bottom-3 left-1/2 transform -translate-x-1/2 w-11/12 border border-[#031f39] text-[#031f39] md:hidden"
-              : "hidden md:block"
-          } text-lg font-[Poppins] ${
-            !isFixed ? "text-gray-100" : "text-[#031f39]"
-          } font-semibold cursor-pointer hover:bg-white/10 p-2 rounded-md transition duration-500`}
-        >
-          Log In
-        </NavLink>
+        {!isLogin && (
+          <NavLink
+            to="/auth/login"
+            className={`${
+              openMenu
+                ? "absolute bottom-3 left-1/2 transform -translate-x-1/2 w-11/12 border border-[#031f39] text-[#031f39] md:hidden"
+                : "hidden md:block"
+            } text-lg font-[Poppins] ${
+              !isFixed ? "text-gray-100" : "text-[#031f39]"
+            } font-semibold cursor-pointer hover:bg-white/10 p-2 rounded-md transition duration-500`}
+          >
+            Log In
+          </NavLink>
+        )}
         <SignIn openMenu={openMenu} isfixed={isFixed} />
         <button
           className="md:hidden cursor-pointer hover:text-orange-500"

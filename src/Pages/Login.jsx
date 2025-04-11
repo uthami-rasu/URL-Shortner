@@ -1,9 +1,49 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Logo from "../sub-components/Logo";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import GoogleSvg from "../sub-components/GoogleSvg";
+import { useDispatch, useSelector } from "react-redux";
+import { signIn } from "../Utils/authentication";
 
 const Login = () => {
+  const isLogin = useSelector((store) => store.auth.user?.isLogin);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isLogin) {
+      navigate("/");
+    }
+  }, []);
+  const [userInput, setUserInput] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleInputChange = (e) => {
+    setUserInput((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const handleAuth = async () => {
+      const user = await signIn(userInput.email, userInput.password);
+
+      navigate("/");
+
+      console.log("User logged in");
+    };
+
+    try {
+      handleAuth();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  console.log(userInput);
+
   return (
     <div className="w-screen h-screen bg-white font-[Poppins] lg:flex overflow-x-hidden ">
       <div className="w-full ">
@@ -21,39 +61,46 @@ const Login = () => {
                 <u> Sign up</u>
               </NavLink>
             </h4>
-            <div className="flex flex-col gap-y-3 md:gap-y-5">
-              <div className="flex flex-col gap-y-2 mt-3 md:gap-y-3 md:mt-4">
-                <label>Email</label>
-                <input
-                  style={{
-                    "&focus": "box-shadow:0px 0px 2px blue",
-                  }}
-                  type="text"
-                  placeholder="ex: yourname@email.com"
-                  className="border border-gray-300 h-9 pl-2 leading-loose outline-0 rounded-md focus:border-blue-600 "
-                />
-                {/* <span>Error</span> */}
+            <form onSubmit={handleSubmit}>
+              <div className="flex flex-col gap-y-3 md:gap-y-5">
+                <div className="flex flex-col gap-y-2 mt-3 md:gap-y-3 md:mt-4">
+                  <label>Email</label>
+                  <input
+                    style={{
+                      "&focus": "box-shadow:0px 0px 2px blue",
+                    }}
+                    value={userInput.email}
+                    type="text"
+                    name="email"
+                    onChange={handleInputChange}
+                    placeholder="ex: yourname@email.com"
+                    className="border border-gray-300 h-9 pl-2 leading-loose outline-0 rounded-md focus:border-blue-600 "
+                  />
+                  {/* <span>Error</span> */}
+                </div>
+                <div className="flex flex-col gap-y-2 ">
+                  <label>Password</label>
+                  <input
+                    type="password"
+                    placeholder="ex: your password"
+                    name="password"
+                    onChange={handleInputChange}
+                    className="border border-gray-300 h-9 pl-2 leading-loose outline-0 rounded-md focus:border-blue-600 "
+                  />
+                  {/* <span>Error</span> */}
+                </div>
+                <div className="text-right text-md mt-5 md:mt-7">
+                  <NavLink to="/fp" className="text-blue-800 underline">
+                    <u>Forgot your password ?</u>
+                  </NavLink>
+                </div>
+                <div className="w-full mt-5 ">
+                  <button className="w-full bg-blue-700 p-2 rounded-md text-white font-medium text-base">
+                    Log in
+                  </button>
+                </div>
               </div>
-              <div className="flex flex-col gap-y-2 ">
-                <label>Password</label>
-                <input
-                  type="password"
-                  placeholder="ex: your password"
-                  className="border border-gray-300 h-9 pl-2 leading-loose outline-0 rounded-md focus:border-blue-600 "
-                />
-                {/* <span>Error</span> */}
-              </div>
-              <div className="text-right text-md mt-5 md:mt-7">
-                <NavLink to="/fp" className="text-blue-800 underline">
-                  <u>Forgot your password ?</u>
-                </NavLink>
-              </div>
-            </div>
-            <div className="w-full mt-5 ">
-              <button className="w-full bg-blue-700 p-2 rounded-md text-white font-medium text-base">
-                Log in
-              </button>
-            </div>
+            </form>
           </div>
 
           <div className="flex flex-col gap-y-2 w-full mt-10 md:gap-y-3">

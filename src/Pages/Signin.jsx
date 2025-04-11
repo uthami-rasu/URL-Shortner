@@ -1,9 +1,48 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import Logo from "../sub-components/Logo";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import GoogleSvg from "../sub-components/GoogleSvg";
 
+import { signIn, signUp } from "./../Utils/authentication";
 const Signin = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [userInput, setUserInput] = useState({
+    email: "",
+    password: "",
+  });
+  // create use ref
+  const usernameRef = useRef("");
+  const emailRef = useRef("");
+  const passwordRef = useRef("");
+
+  const navigate = useNavigate();
+
+  const handleInputChange = (e) => {
+    setUserInput((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleFormSubmit = async (e) => {
+    setIsLoading(true);
+    e.preventDefault();
+
+    try {
+      await signUp(userInput);
+      console.log("user");
+      setTimeout(() => {
+        navigate("/");
+      }, 300);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  console.log(userInput);
+
   return (
     <div className="w-screen h-screen bg-white font-[Poppins] lg:flex overflow-x-hidden ">
       <div className="w-full ">
@@ -35,43 +74,69 @@ const Signin = () => {
                 </div>
               </div>
             </div>
-            <div className="flex flex-col gap-y-3 md:gap-y-5">
-              <div className="flex flex-col gap-y-2 mt-3 md:gap-y-3 md:mt-4">
-                <label>Email</label>
-                <input
-                  style={{
-                    "&focus": "box-shadow:0px 0px 2px blue",
-                  }}
-                  type="text"
-                  placeholder="ex: yourname@email.com"
-                  className="border border-gray-300 h-9 pl-2 leading-loose outline-0 rounded-md focus:border-blue-600 "
-                />
-                {/* <span>Error</span> */}
+            <form onSubmit={handleFormSubmit}>
+              <div className="flex flex-col gap-y-3">
+                <div className="flex flex-col gap-y-2 mt-2 md:gap-y-3 ">
+                  <label>User Name</label>
+                  <input
+                    ref={usernameRef}
+                    style={{
+                      "&focus": "box-shadow:0px 0px 2px blue",
+                    }}
+                    type="text"
+                    name="username"
+                    value={userInput.username}
+                    onChange={handleInputChange}
+                    placeholder="ex: tom-crusie"
+                    className="border border-gray-300 h-9 pl-2 leading-loose outline-0 rounded-md focus:border-blue-600 "
+                  />
+                  {/* <span>Error</span> */}
+                </div>
+                <div className="flex flex-col gap-y-2  md:gap-y-3 ">
+                  <label>Email</label>
+                  <input
+                    ref={emailRef}
+                    style={{
+                      "&focus": "box-shadow:0px 0px 2px blue",
+                    }}
+                    type="text"
+                    name="email"
+                    value={userInput.email}
+                    onChange={(e) => handleInputChange(e)}
+                    placeholder="ex: yourname@email.com"
+                    className="border border-gray-300 h-9 pl-2 leading-loose outline-0 rounded-md focus:border-blue-600 "
+                  />
+                  {/* <span>Error</span> */}
+                </div>
+                <div className="flex flex-col gap-y-2 ">
+                  <label>Password</label>
+                  <input
+                    ref={passwordRef}
+                    type="password"
+                    name="password"
+                    placeholder="ex: your password"
+                    onChange={handleInputChange}
+                    value={userInput.password}
+                    className="border border-gray-300 h-9 pl-2 leading-loose outline-0 rounded-md focus:border-blue-600 "
+                  />
+                  {/* <span>Error</span> */}
+                </div>
+                <div className="text-right text-md mt-5 md:mt-7">
+                  <NavLink to="/fp" className="text-blue-800 underline">
+                    <u>Forgot your password ?</u>
+                  </NavLink>
+                </div>
+                <div className="w-full mt-5 ">
+                  <button className="w-full bg-blue-700 p-2 rounded-md text-white font-medium text-base">
+                    {!isLoading ? " Sign in" : "Please wait"}
+                  </button>
+                </div>
               </div>
-              <div className="flex flex-col gap-y-2 ">
-                <label>Password</label>
-                <input
-                  type="password"
-                  placeholder="ex: your password"
-                  className="border border-gray-300 h-9 pl-2 leading-loose outline-0 rounded-md focus:border-blue-600 "
-                />
-                {/* <span>Error</span> */}
-              </div>
-              <div className="text-right text-md mt-5 md:mt-7">
-                <NavLink to="/fp" className="text-blue-800 underline">
-                  <u>Forgot your password ?</u>
-                </NavLink>
-              </div>
-              <div className="w-full mt-5 ">
-                <button className="w-full bg-blue-700 p-2 rounded-md text-white font-medium text-base">
-                  Sign in
-                </button>
-              </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>
-      <div className="hidden bg-[#edf2ff] w-full h-full lg:flex lg:flex-col lg:justify-center lg:items-center lg:gap-y-4 text-center font-medium">
+      <div className="hidden bg-[#edf2ff] w-full h-[110vh] lg:flex lg:flex-col lg:justify-center lg:items-center lg:gap-y-4 text-center font-medium">
         <img
           alt="image"
           className="h-6/12"
