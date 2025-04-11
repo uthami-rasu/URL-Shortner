@@ -7,6 +7,9 @@ import QrCodeGenerator from "./Pages/QrCodeGenerator.jsx";
 import { Provider } from "react-redux";
 import appStore from "./Utils/store.js";
 import Analytics from "./components/Analytics.jsx";
+import About from "./Pages/About.jsx";
+import Login from "./Pages/Login.jsx";
+import Signin from "./Pages/Signin.jsx";
 
 const appRouter = createBrowserRouter([
   {
@@ -29,7 +32,19 @@ const appRouter = createBrowserRouter([
         path: "/analytics",
         element: <Analytics />,
       },
+      {
+        path: "/about",
+        element: <About />,
+      },
     ],
+  },
+  {
+    path: "/auth/login",
+    element: <Login />,
+  },
+  {
+    path: "/auth/signin",
+    element: <Signin />,
   },
 ]);
 

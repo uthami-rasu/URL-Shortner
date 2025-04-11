@@ -14,6 +14,7 @@ li {
 }
 #root {
   min-height: 100vh;
+  
 }
 
 @keyframes shimmer {
@@ -23,6 +24,10 @@ li {
   100% {
     background-position: 1000px 0;
   }
+}
+
+test{
+  color : #edf2ff
 }
 
 @keyframes bgScale {

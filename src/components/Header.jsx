@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Logo from "../sub-components/Logo";
 import SignIn from "../sub-components/SignIn";
 import Navigation from "../sub-components/Navigation";
-import { useLocation } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 
 const Header = () => {
   const [isFixed, setIsFixed] = useState(false);
@@ -63,7 +63,8 @@ const Header = () => {
           props="hidden md:block md:-translate-y-0"
           isfixed={isFixed}
         />
-        <button
+        <NavLink
+          to="/auth/login"
           className={`${
             openMenu
               ? "absolute bottom-3 left-1/2 transform -translate-x-1/2 w-11/12 border border-[#031f39] text-[#031f39] md:hidden"
@@ -73,7 +74,7 @@ const Header = () => {
           } font-semibold cursor-pointer hover:bg-white/10 p-2 rounded-md transition duration-500`}
         >
           Log In
-        </button>
+        </NavLink>
         <SignIn openMenu={openMenu} isfixed={isFixed} />
         <button
           className="md:hidden cursor-pointer hover:text-orange-500"
