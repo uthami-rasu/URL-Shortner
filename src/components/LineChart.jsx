@@ -9,7 +9,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import ChartShimmer from "../sub-components/chartShimmer";
+import ChartShimmer from "../sub-components/ChartShimmer";
 
 const data = [
   { date: "2025-04-01", clicks: 5 },
