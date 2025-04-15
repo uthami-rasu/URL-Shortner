@@ -6,7 +6,11 @@ import {
   updateShortLinkDestination,
 } from "../Utils/urlSlice";
 import { isValidUrl } from "../Utils/utils";
+import { auth } from "../Utils/firebase";
+import { useNavigate } from "react-router-dom";
+import { createShortUrl } from "../Utils/api";
 
+import { print as MessagePrint } from "../Utils/print";
 const LinkGenrators = () => {
   const shortDestination = useSelector(
     (store) => store.urls?.short_link_destination
@@ -18,6 +22,8 @@ const LinkGenrators = () => {
   const dispatch = useDispatch();
   console.log("Urls", shortDestination, qrDestination);
   const [shortUrlActive, setShortUrlActive] = useState(true);
+
+  const navigate = useNavigate();
 
   const [url, setUrl] = useState("");
   const inputRef = useRef("");
@@ -44,6 +50,63 @@ const LinkGenrators = () => {
     }
     isUrlValid(e.target.value);
     dispatch(updateQrDestination(e.target.value));
+  };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const idToken = await auth.currentUser.getIdToken();
+
+      if (!idToken) {
+        navigate("/auth/login");
+      }
+
+      console.log(idToken, "Token");
+
+      if (shortUrlActive && !ShortLinkError) {
+        if (!shortDestination) {
+          dispatch(
+            updateError({
+              error: "please enter url",
+              isQr: shortUrlActive ? null : true,
+            })
+          );
+          return;
+        }
+
+        const result = await createShortUrl(shortDestination, idToken);
+
+        // pop up message
+        MessagePrint();
+
+        setTimeout(() => {
+          navigate("/short-url-link");
+        }, 1000);
+        return;
+      }
+      if (!shortUrlActive && !qrError) {
+        if (!qrDestination) {
+          dispatch(
+            updateError({
+              error: "url field should not be empty",
+              isQr: shortUrlActive ? null : true,
+            })
+          );
+          return;
+        }
+        const result = await createShortUrl(qrDestination, idToken);
+
+        // pop up message
+        MessagePrint();
+
+        setTimeout(() => {
+          navigate("/qrcode-generator");
+        }, 1000);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {
@@ -126,7 +189,10 @@ const LinkGenrators = () => {
               ? " Paste your long link here"
               : "Enter your QR Code destination"}
           </h3>
-          <form className="flex flex-col justify-center gap-5 lg:gap-7">
+          <form
+            className="flex flex-col justify-center gap-5 lg:gap-7"
+            onSubmit={handleFormSubmit}
+          >
             <input
               ref={inputRef}
               type="text"

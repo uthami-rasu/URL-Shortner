@@ -1,4 +1,4 @@
-import React, { useDebugValue, useEffect, useRef } from "react";
+import React, { useDebugValue, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   updateError,
@@ -6,9 +6,12 @@ import {
   updateShortLinkDestination,
 } from "../Utils/urlSlice";
 import DashboardCard from "../sub-components/DashboardCard";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { isValidUrl } from "../Utils/utils";
-
+import { auth } from "../Utils/firebase";
+import { createShortUrl } from "../Utils/api";
+import { print as MessagePrint } from "../Utils/print";
+import ListView from "../components/ListView";
 const QrCodeGenerator = () => {
   const bgColor = useSelector((store) => store.colors.bgColor);
   const inputRef = useRef();
@@ -23,7 +26,14 @@ const QrCodeGenerator = () => {
   const qrError = useSelector((store) => store.urls?.qr_error);
   const ShortLinkError = useSelector((store) => store.urls?.short_link_error);
 
+  const [title, setTitle] = useState({
+    qrTitle: "",
+    shortLinkTitle: "",
+  });
+
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
 
   const isUrlValid = (url) => {
     const hasError = isValidUrl(url);
@@ -43,6 +53,60 @@ const QrCodeGenerator = () => {
     }
     isUrlValid(e.target.value);
     dispatch(updateQrDestination(e.target.value));
+  };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const idToken = await auth.currentUser.getIdToken();
+
+      if (!idToken) {
+        navigate("/auth/login");
+      }
+
+      if (!isQrPage && !ShortLinkError) {
+        if (!shortDestination) {
+          dispatch(
+            updateError({
+              error: "urlfield should not be empty",
+              isQr: !isQrPage ? null : true,
+            })
+          );
+          return;
+        }
+        const result = await createShortUrl(
+          shortDestination,
+          idToken,
+          title.shortLinkTitle
+        );
+
+        // pop up message
+        MessagePrint();
+        return;
+      }
+      if (isQrPage && !qrError) {
+        if (!qrDestination) {
+          dispatch(
+            updateError({
+              error: "urlfield should not be empty",
+              isQr: !isQrPage ? null : true,
+            })
+          );
+          return;
+        }
+        const result = await createShortUrl(
+          qrDestination,
+          idToken,
+          title.qrTitle
+        );
+
+        // pop up message
+        MessagePrint();
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {
@@ -85,7 +149,9 @@ const QrCodeGenerator = () => {
 
         <div
           className={`relative bg-white w-11/12 mx-auto py-4 px-3 md:px-5 rounded-4xl font-[Lato] mt-5 xl:w-8/12
-          ${isQrPage ? "lg:flex lg:justify-between" : "lg:block"}
+          ${
+            isQrPage ? "lg:flex lg:justify-between lg:items-center" : "lg:block"
+          }
           mb-10`}
         >
           <div className={`bg-white py-6 mx-auto p-3 rounded-2xl flex-1 `}>
@@ -105,7 +171,10 @@ const QrCodeGenerator = () => {
                 ? "Enter your QR Code destination"
                 : "Paste your long link here"}
             </h3>
-            <form className="flex flex-col justify-center gap-x-5 gap-y-4 lg:gap-7">
+            <form
+              className="flex flex-col justify-center gap-x-5 gap-y-4 lg:gap-7"
+              onSubmit={handleFormSubmit}
+            >
               <input
                 type="text"
                 ref={inputRef}
@@ -130,6 +199,26 @@ const QrCodeGenerator = () => {
               <span className="mx-2 text-lg font-semibold text-red-600 font-[Lato]">
                 {!isQrPage ? ShortLinkError : qrError}
               </span>
+              <label className="text-xl font-bold text-[#031f39] lg:font-extrabold">
+                Title <span className="font-medium">(optional)</span>
+              </label>
+              <input
+                type="text"
+                value={isQrPage ? title.qrTitle : title.shortLinkTitle}
+                placeholder="ex: linkedin post"
+                className={`h-14 border-2 border-gray-300 rounded-md mt-1 py-2 px-4 text-lg outline-0 
+            focus:border-blue-700 focus:border-3 focus:shadow-sm focus:shadow-blue-100 
+            hover:bg-gray-50 hover:border-black hover:border
+            
+            `}
+                onChange={(e) =>
+                  setTitle((prev) => {
+                    return isQrPage
+                      ? { ...prev, qrTitle: e.target.value }
+                      : { ...prev, shortLinkTitle: e.target.value };
+                  })
+                }
+              />
               <button
                 className={`flex items-center px-4 py-2 justify-between bg-blue-700 rounded-2xl text-lg text-white font-semibold text-center md:w-1/2 lg:text-xl lg:py-4 lg:${
                   isQrPage ? "w-4/6" : "w-2/6"
@@ -148,7 +237,7 @@ const QrCodeGenerator = () => {
             </form>
           </div>
           <div
-            className={`hidden lg:bg-gray-300 rounded-2xl lg:w-4/12 ${
+            className={`hidden lg:bg-gray-300 rounded-2xl lg:w-4/12 lg:h-8/12  ${
               !isQrPage ? "hidden" : "lg:block"
             }`}
           >
@@ -159,7 +248,7 @@ const QrCodeGenerator = () => {
           </div>
         </div>
       </main>
-      <section className="bg-white w-full p-10">
+      {/* <section className="bg-white w-full p-10">
         <h1
           className="text-4xl text-center font-semibold mb-5 lg:text-5xl"
           style={{ textShadow: "1px 1px 2px #031f39" }}
@@ -172,7 +261,10 @@ const QrCodeGenerator = () => {
           <DashboardCard />
           <DashboardCard />
         </main>
-      </section>
+      </section> */}
+      <main className="w-full bg-gray-200">
+        <ListView />
+      </main>
     </section>
   );
 };

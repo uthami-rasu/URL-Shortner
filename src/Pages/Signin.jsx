@@ -6,6 +6,7 @@ import GoogleSvg from "../sub-components/GoogleSvg";
 import { signIn, signUp } from "./../Utils/authentication";
 const Signin = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
   const [userInput, setUserInput] = useState({
     email: "",
     password: "",
@@ -34,8 +35,10 @@ const Signin = () => {
       setTimeout(() => {
         navigate("/");
       }, 300);
+      setIsError(false);
     } catch (err) {
       console.error(err);
+      setIsError(true);
     } finally {
       setIsLoading(false);
     }
@@ -126,6 +129,11 @@ const Signin = () => {
                     <u>Forgot your password ?</u>
                   </NavLink>
                 </div>
+                {isError && (
+                  <span className="text-red-600 font-medium">
+                    User already exists, please use another email
+                  </span>
+                )}
                 <div className="w-full mt-5 ">
                   <button className="w-full bg-blue-700 p-2 rounded-md text-white font-medium text-base">
                     {!isLoading ? " Sign in" : "Please wait"}

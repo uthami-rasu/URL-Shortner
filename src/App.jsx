@@ -4,13 +4,13 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
-import { Provider, useDispatch, useSelector } from "react-redux";
-import appStore from "./Utils/store";
+import { useDispatch, useSelector } from "react-redux";
 import { changeBgColor } from "./Utils/colorSlice";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./Utils/firebase";
 import { addUser, removeUser } from "./Utils/authSlice";
+import Print from "./sub-components/Print";
 function App() {
   const queryClient = new QueryClient();
 
@@ -65,6 +65,7 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <Print />
       <div className={`w-full  flex flex-col h-auto bg-[${bgColor}]`}>
         <Header />
         <div className="flex-grow">

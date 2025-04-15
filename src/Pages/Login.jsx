@@ -8,6 +8,8 @@ import { signIn } from "../Utils/authentication";
 const Login = () => {
   const isLogin = useSelector((store) => store.auth.user?.isLogin);
 
+  const [isError, setIsError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,25 +26,23 @@ const Login = () => {
     setUserInput((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
+    setIsLoading(true);
     e.preventDefault();
 
-    const handleAuth = async () => {
+    try {
       const user = await signIn(userInput.email, userInput.password);
 
-      navigate("/");
-
-      console.log("User logged in");
-    };
-
-    try {
-      handleAuth();
+      setTimeout(() => {
+        navigate("/");
+      }, 400);
+      setIsError(false);
     } catch (err) {
-      console.error(err);
+      setIsError(true);
+    } finally {
+      setIsLoading(false);
     }
   };
-
-  console.log(userInput);
 
   return (
     <div className="w-screen h-screen bg-white font-[Poppins] lg:flex overflow-x-hidden ">
@@ -94,9 +94,14 @@ const Login = () => {
                     <u>Forgot your password ?</u>
                   </NavLink>
                 </div>
+                {isError && (
+                  <span className="text-red-600 font-medium">
+                    Invalid Credentials, please check email & password
+                  </span>
+                )}
                 <div className="w-full mt-5 ">
                   <button className="w-full bg-blue-700 p-2 rounded-md text-white font-medium text-base">
-                    Log in
+                    {isLoading ? "Please wait" : "Log in"}
                   </button>
                 </div>
               </div>

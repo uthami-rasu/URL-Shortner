@@ -14,7 +14,6 @@ li {
 }
 #root {
   min-height: 100vh;
-  
 }
 
 @keyframes shimmer {
@@ -26,8 +25,8 @@ li {
   }
 }
 
-test{
-  color : #edf2ff
+test {
+  color: #edf2ff;
 }
 
 @keyframes bgScale {
@@ -37,6 +36,10 @@ test{
   100% {
     background-size: 99.5%;
   }
+}
+
+.hover-input:hover {
+  box-shadow: 0px 0px 1px #3939ff;
 }
 
 /* Hide scrollbar cleanly */

@@ -3,7 +3,7 @@ import React from "react";
 const ChartWrapper = ({ children, Title, BottomTitle }) => {
   return (
     <div
-      className="flex flex-col gap-1 w-full rounded-md p-3 shadow-md bg-white"
+      className="flex flex-col gap-1 w-full rounded-md p-3 shadow-md bg-white "
       style={{
         boxShadow: "0px 0px 1px gray",
       }}

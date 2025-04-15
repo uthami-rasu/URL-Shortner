@@ -55,6 +55,15 @@ const Filter = () => {
     (store) => store?.filters.selectedOptions
   );
 
+  const filterOptions = useSelector((store) => store?.filters.filterOptions);
+
+  const testOptions = filterOptions.map((item) => ({
+    value: item.shortUrl,
+    label: item?.name || `No Title(${item.shortUrl})`,
+  }));
+
+  console.log(testOptions);
+
   const dispatch = useDispatch();
 
   const handleChange = (selected) => {
@@ -76,7 +85,7 @@ const Filter = () => {
         </span>
 
         <Select
-          options={options}
+          options={testOptions || []}
           isMulti
           closeMenuOnSelect={false}
           hideSelectedOptions={false}
