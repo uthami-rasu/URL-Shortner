@@ -8,7 +8,7 @@ import {
   ResponsiveContainer,
   Cell,
 } from "recharts";
-import ChartShimmer from "../sub-components/chartShimmer";
+import ChartShimmer from "../sub-components/ChartShimmer";
 
 const referrerData = [
   { country: "India", clicks: 12 },

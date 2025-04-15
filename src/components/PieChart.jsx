@@ -1,6 +1,6 @@
 import React from "react";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
-import ChartShimmer from "../sub-components/chartShimmer";
+import ChartShimmer from "../sub-components/ChartShimmer";
 
 const countryData = [
   { name: "India", value: 20 },
