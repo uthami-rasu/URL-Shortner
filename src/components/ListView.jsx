@@ -5,8 +5,11 @@ import {
   SearchIcon,
 } from "../sub-components/SvgStore";
 import UrlCard from "../sub-components/UrlCard";
+import { useSelector } from "react-redux";
 
 const ListView = () => {
+  const urlLists = useSelector((store) => store?.urls.urlLists);
+
   return (
     <div className="w-full lg:w-11/12 mx-auto p-7 flex flex-col items-center">
       <div className="w-full flex flex-col justify-between gap-x-2 gap-y-4 ">
@@ -33,8 +36,12 @@ const ListView = () => {
           </div>
         </div>
       </div>
-      <div className="w-full p-2 ">
-        <UrlCard />
+      <div className="w-full p-2 flex flex-col gap-y-7 ">
+        {urlLists && urlLists.length > 0
+          ? urlLists.map((u) => {
+              return <UrlCard {...u} styles={"mt-5"} />;
+            })
+          : "Nothing to Display"}
       </div>
     </div>
   );

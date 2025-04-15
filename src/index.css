@@ -69,3 +69,24 @@ test {
 .scrollbar-custom::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+.shimmer {
+  background: linear-gradient(
+    to right,
+    #fff 0%,
+    #f1eeee 20%,
+    #fcf9f9 40%,
+    #fffdfd 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}

@@ -1,25 +1,32 @@
 import axios from "axios";
 import { auth } from "./firebase";
-import { header } from "framer-motion/client";
 
 
-const fetchUrlNames = async () => {
-
+const fetchShortLinks = async (
+    fromDate,
+    toDate
+) => {
     try {
-        const idToken = await auth.currentUser.getIdToken()
-        const response = await axios.get("http://localhost:8000/api/v1/geturl-names", {
+        const idToken = await auth.currentUser.getIdToken();
+
+        const response = await axios.get("http://localhost:8000/api/v1/short-links", {
             headers: {
-                Authorization: "Bearer" + idToken
-            }
-        })
+                Authorization: `Bearer ${idToken}`,
+            },
+            params: {
+                fromDate: fromDate.toISOString(),
+                toDate: toDate.toISOString(),
+            },
+        });
 
         return response.data;
+    } catch (err) {
+        console.error("Error fetching short links:", err);
+        throw err;
     }
-    catch (err) {
-        console.error(err)
-    }
+};
+;
 
-}
 const fetchData = async (selectedOptions = []) => {
 
     const idToken = await auth.currentUser.getIdToken()
@@ -68,4 +75,4 @@ const createShortUrl = async (url, idToken, title) => {
 
 }
 
-export { fetchData, createShortUrl };
+export { fetchData, createShortUrl, fetchShortLinks };

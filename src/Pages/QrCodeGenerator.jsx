@@ -1,6 +1,7 @@
 import React, { useDebugValue, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  addUrlLists,
   updateError,
   updateQrDestination,
   updateShortLinkDestination,
@@ -9,10 +10,22 @@ import DashboardCard from "../sub-components/DashboardCard";
 import { useLocation, useNavigate } from "react-router-dom";
 import { isValidUrl } from "../Utils/utils";
 import { auth } from "../Utils/firebase";
-import { createShortUrl } from "../Utils/api";
+import { createShortUrl, fetchShortLinks } from "../Utils/api";
 import { print as MessagePrint } from "../Utils/print";
 import ListView from "../components/ListView";
+import { useQuery } from "@tanstack/react-query";
+import ListViewShimmer from "../components/ListViewShimmer";
 const QrCodeGenerator = () => {
+  // make an api call
+  const [dateRange, setDateRange] = useState({
+    fromDate: new Date(0),
+    toDate: new Date(),
+  });
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["shortLinks", dateRange],
+    queryFn: () => fetchShortLinks(dateRange.fromDate, dateRange.toDate),
+  });
+
   const bgColor = useSelector((store) => store.colors.bgColor);
   const inputRef = useRef();
   const shortDestination = useSelector(
@@ -118,6 +131,12 @@ const QrCodeGenerator = () => {
       inputRef.current.style.borderColor = qrError ? "red" : "blue";
     }
   }, [ShortLinkError, qrError, isQrPage]);
+
+  useEffect(() => {
+    console.log("Razz", data);
+
+    dispatch(addUrlLists(data));
+  }, [data]);
   return (
     <section
       style={{
@@ -263,7 +282,7 @@ const QrCodeGenerator = () => {
         </main>
       </section> */}
       <main className="w-full bg-gray-200">
-        <ListView />
+        {isLoading ? <ListViewShimmer /> : <ListView />}
       </main>
     </section>
   );

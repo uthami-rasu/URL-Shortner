@@ -12,6 +12,7 @@ const appStore = configureStore({
         auth: authReducer,
         analysis: analysisReducer,
         filters: filterReducer,
+        
     }
 })
 

@@ -8,7 +8,8 @@ const urlSlicer = createSlice({
         qr_error: null,
         short_link_error: null,
         qrTitle: "",
-        shortLinklTitle: ""
+        shortLinklTitle: "",
+        urlLists: []
     },
     reducers: {
         updateQrDestination: (state, action) => {
@@ -31,12 +32,15 @@ const urlSlicer = createSlice({
         },
         updateQrTitle: (state, action) => {
             state.shortLinklTitle = action.payload;
+        },
+        addUrlLists: (state, action) => {
+            state.urlLists = action.payload
         }
     }
 })
 
 
-export const { updateQrDestination, updateShortLinkDestination, updateError } = urlSlicer.actions;
+export const { updateQrDestination, updateShortLinkDestination, updateError, addUrlLists } = urlSlicer.actions;
 
 
 export default urlSlicer.reducer; 
