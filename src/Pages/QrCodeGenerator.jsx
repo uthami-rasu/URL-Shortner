@@ -259,7 +259,7 @@ const QrCodeGenerator = () => {
                 }
               />
               <button
-                className={`flex items-center px-4 py-2 justify-between bg-blue-700 rounded-2xl text-lg text-white font-semibold text-center md:w-1/2 lg:text-xl lg:py-4 lg:${
+                className={`flex items-center cursor-pointer px-4 py-2 justify-between bg-blue-700 rounded-2xl text-lg text-white font-semibold text-center md:w-1/2 lg:text-xl lg:py-4 lg:${
                   isQrPage ? "w-4/6" : "w-2/6"
                 }
               `}

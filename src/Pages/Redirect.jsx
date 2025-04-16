@@ -7,7 +7,7 @@ import axios from "axios";
 const RAZZLY_ENDPOINT = import.meta.env.VITE_RAZZLY_BACKEND_ENDPOINT;
 
 const Redirect = () => {
-  const { shorturl = null } = useParams();
+  const { shorturl } = useParams();
 
   // useEffect(() => {
   //   const getOriginalUrl = async () => {
@@ -28,11 +28,14 @@ const Redirect = () => {
   //   getOriginalUrl();
   // }, [shorturl]);
 
+  console.log(shorturl);
   useEffect(() => {
     if (shorturl) {
-      window.location.href = `${RAZZLY_ENDPOINT}/api/v1/redirect/${shorturl}`;
+      // window.location.href = `${RAZZLY_ENDPOINT}/api/v1/redirect/${shorturl}`;
+
+      window.location.href = RAZZLY_ENDPOINT + "/api/redirect/" + shorturl;
     }
-  }, [shorturl]);
+  }, []);
 
   return (
     <div className="w-full p-5 bg-white h-screen">

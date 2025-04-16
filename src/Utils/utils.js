@@ -1,23 +1,17 @@
 import { Bounce, toast } from "react-toastify";
 
 const isValidUrl = (url) => {
-
-    const urlPattern = new RegExp('^(https?:\\/\\/)' + // http:// or https://
-        '((([a-zA-Z\\d]([a-zA-Z\\d-]*[a-zA-Z\\d])*)\\.)+[a-zA-Z]{2,})' + // domain name
-        '(\\:\\d+)?(\\/[-a-zA-Z\\d%@_.~+&:]*)*' + // optional port and path
-        '(\\?[;&a-zA-Z\\d%@_.,~+&:=-]*)?' + // optional query string
-        '(\\#[-a-zA-Z\\d_]*)?$', 'i'); // optional fragment
-
-    const isValid = urlPattern.test(url);
-
-    if (isValid) {
-        return null
+    try {
+        const parsedUrl = new URL(url);
+        if (parsedUrl.protocol === "http:" || parsedUrl.protocol === "https:") {
+            return null;
+        }
+        return { error: "Only HTTP and HTTPS URLs are allowed." };
+    } catch (err) {
+        return { error: "Please enter a valid URL." };
     }
-
-    return { error: "Please enter valid url." };
-
-
 };
+;
 
 const fillMissedDates = (data) => {
     const results = [];

@@ -34,6 +34,13 @@ const Analytics = () => {
   const { data, isLoading, error } = useQuery({
     queryKey: ["visits", selectedoptions],
     queryFn: ({ queryKey: [, selectedoptions] }) => fetchData(selectedoptions),
+
+    // refetch every 10 seconds
+    refetchInterval: 300000,
+
+    // refetch when component remounts or window is refocused
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
   });
 
   useEffect(() => {
