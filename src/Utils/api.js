@@ -1,7 +1,7 @@
 import axios from "axios";
 import { auth } from "./firebase";
 
-
+const RAZZLY_ENDPOINT = "https://razzly-backend.onrender.com";
 const fetchShortLinks = async (
     fromDate,
     toDate
@@ -9,7 +9,7 @@ const fetchShortLinks = async (
     try {
         const idToken = await auth.currentUser.getIdToken();
 
-        const response = await axios.get("http://localhost:8000/api/v1/short-links", {
+        const response = await axios.get(RAZZLY_ENDPOINT + "/api/v1/short-links", {
             headers: {
                 Authorization: `Bearer ${idToken}`,
             },
@@ -37,7 +37,7 @@ const fetchData = async (selectedOptions = []) => {
     };
 
     const response = await axios.post(
-        "http://localhost:8000/api/v1/bulk-analysis",
+        RAZZLY_ENDPOINT + "/api/v1/bulk-analysis",
         payload, {
         headers: {
             Authorization: "Bearer " + idToken
@@ -53,7 +53,7 @@ const fetchData = async (selectedOptions = []) => {
 
 // 1. url convertion 
 
-const API_ENDPOINT = "http://localhost:8000/api/v1/short_url";
+const API_ENDPOINT = RAZZLY_ENDPOINT + "/api/v1/short_url";
 const createShortUrl = async (url, idToken, title) => {
     try {
 
