@@ -10,8 +10,9 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import ChartShimmer from "../sub-components/ChartShimmer";
+import { useSelector } from "react-redux";
 
-const data = [
+const dummyData = [
   { date: "2025-04-01", clicks: 5 },
   { date: "2025-04-02", clicks: 8 },
   { date: "2025-04-03", clicks: 2 },
@@ -23,6 +24,8 @@ const data = [
 
 const LineChartDiagram = ({ loading, Data }) => {
   const [angle, setAngle] = useState(0);
+
+  const userObj = useSelector((store) => store.auth.user);
 
   useEffect(() => {
     console.log("running");
@@ -48,7 +51,7 @@ const LineChartDiagram = ({ loading, Data }) => {
       ) : (
         <ResponsiveContainer width="100%" height="100%">
           <LineChart
-            data={Data}
+            data={userObj?.isLogin ? Data : dummyData}
             margin={{ top: 10, right: 30, left: -20, bottom: 40 }}
             className="p-2"
           >

@@ -11,7 +11,7 @@ const ListView = () => {
   const urlLists = useSelector((store) => store?.urls.urlLists);
 
   return (
-    <div className="w-full lg:w-11/12 mx-auto p-7 flex flex-col items-center">
+    <div className="w-full lg:w-11/12 mx-auto p-5 flex flex-col items-center">
       <div className="w-full flex flex-col justify-between gap-x-2 gap-y-4 ">
         <h1 className="text-3xl font-[poppins] font-semibold">Razzly Links</h1>
         <div className="w-full flex flex-col gap-y-3 gap-x-3 border-b-2 border-gray-300 pb-7 md:flex-row md:justify-between md:items-center ">

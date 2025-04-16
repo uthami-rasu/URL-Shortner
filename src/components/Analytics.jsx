@@ -7,6 +7,9 @@ import {
   BAR_COLORS,
   COLORS_PALETTE_1,
   COLORS_PALETTE_2,
+  demoBrowserData,
+  demoCountryData,
+  demoDeviceData,
 } from "../Utils/constants";
 import { useQuery } from "@tanstack/react-query";
 import { fetchData } from "../Utils/api";
@@ -15,6 +18,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateData } from "../Utils/analysis";
 import Filter from "./Filter";
 import { setFilterOptions } from "../Utils/filterSlice";
+import { demoVisitorsData } from "../Utils/constants";
+import PieChartTwo from "./pietest";
 
 const Analytics = () => {
   const lineChartDataSelector = useSelector(
@@ -22,6 +27,8 @@ const Analytics = () => {
   );
   const selectedoptions = useSelector((store) => store.filters.selectedOptions);
   const dataSelector = useSelector((store) => store.analysis.data);
+  const userObj = useSelector((store) => store.auth.user);
+
   console.log("lineChartData", lineChartDataSelector);
   const dispatch = useDispatch();
   const { data, isLoading, error } = useQuery({
@@ -82,7 +89,7 @@ const Analytics = () => {
               )}
             </ChartWrapper>
             <ChartWrapper Title={"Top Platforms Visitors Came From"}>
-              {dataSelector.referrerData?.length === 0 ? (
+              {userObj?.isLogin && dataSelector.referrerData?.length === 0 ? (
                 <div className="h-[350px] flex justify-center items-center">
                   <h3 className="text-center text-lg font-medium">
                     No data to Display
@@ -91,7 +98,11 @@ const Analytics = () => {
               ) : (
                 <PieChart
                   loading={isLoading || error?.message === "Network Error"}
-                  data={dataSelector?.referrerData}
+                  data={
+                    userObj?.isLogin
+                      ? dataSelector?.referrerData
+                      : demoVisitorsData
+                  }
                   colors={COLORS_PALETTE_2}
                 />
               )}
@@ -106,7 +117,11 @@ const Analytics = () => {
               ) : (
                 <BarChart
                   loading={isLoading || error?.message === "Network Error"}
-                  data={dataSelector?.countryData}
+                  data={
+                    userObj?.isLogin
+                      ? dataSelector?.countryData
+                      : demoCountryData
+                  }
                   colors={BAR_COLORS.slice(5, 10)}
                 />
               )}
@@ -121,7 +136,11 @@ const Analytics = () => {
               ) : (
                 <PieChart
                   loading={isLoading || error?.message === "Network Error"}
-                  data={dataSelector?.deviceTypeData}
+                  data={
+                    userObj?.isLogin
+                      ? dataSelector?.deviceTypeData
+                      : demoDeviceData
+                  }
                   colors={COLORS_PALETTE_1}
                 />
               )}
@@ -136,7 +155,11 @@ const Analytics = () => {
               ) : (
                 <BarChart
                   loading={isLoading || error?.message === "Network Error"}
-                  data={dataSelector?.browserTypeData}
+                  data={
+                    userObj?.isLogin
+                      ? dataSelector?.browserTypeData
+                      : demoBrowserData
+                  }
                   colors={BAR_COLORS.slice(1, 15)}
                 />
               )}

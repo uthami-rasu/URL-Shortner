@@ -15,6 +15,7 @@ import { print as MessagePrint } from "../Utils/print";
 import ListView from "../components/ListView";
 import { useQuery } from "@tanstack/react-query";
 import ListViewShimmer from "../components/ListViewShimmer";
+import { Bounce, toast } from "react-toastify";
 const QrCodeGenerator = () => {
   // make an api call
   const [dateRange, setDateRange] = useState({
@@ -25,7 +26,7 @@ const QrCodeGenerator = () => {
     queryKey: ["shortLinks", dateRange],
     queryFn: () => fetchShortLinks(dateRange.fromDate, dateRange.toDate),
   });
-
+  const userObj = useSelector((store) => store.auth.user);
   const bgColor = useSelector((store) => store.colors.bgColor);
   const inputRef = useRef();
   const shortDestination = useSelector(
@@ -70,6 +71,23 @@ const QrCodeGenerator = () => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+
+    if (!userObj?.isLogin) {
+      toast.error("please login first", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
+      setTimeout(() => {
+        navigate("/auth/login");
+      }, 1000);
+    }
 
     try {
       const idToken = await auth.currentUser.getIdToken();
@@ -282,7 +300,7 @@ const QrCodeGenerator = () => {
         </main>
       </section> */}
       <main className="w-full bg-gray-200">
-        {isLoading ? <ListViewShimmer /> : <ListView />}
+        {isLoading || error ? <ListViewShimmer /> : <ListView />}
       </main>
     </section>
   );

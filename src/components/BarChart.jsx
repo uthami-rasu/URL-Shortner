@@ -30,13 +30,14 @@ const CustomBarChart = ({ loading, data, colors }) => {
           <BarChart
             data={data}
             margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+            activeBar={false}
           >
             <XAxis
               dataKey="name"
               className="text-[12px] lg:text-[15px] font-medium"
             />
             <YAxis className="text-[12px] lg:text-[15px] font-medium" />
-            <Tooltip />
+            <Tooltip cursor={{ fill: "#ffffff00" }} />
             <Bar dataKey="value" radius={[3, 3, 0, 0]}>
               {referrerData.map((entry, index) => (
                 <Cell

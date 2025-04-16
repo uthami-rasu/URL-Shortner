@@ -19,3 +19,16 @@
 - 5 Browser Usage (Chrome/Safari) Bar Chart {"Chrome": 20, "Safari": 8}
 
 # create login page
+
+# Pending
+
+- Copy functionalitie
+- Qr Creation , Types of url
+- Show Qr Code
+- about page
+
+# bugs
+
+- if user not logged in , redirect them to login
+- in url listview show something better instead of Nothing to display
+- show some stuff in analytics page if user not logged in

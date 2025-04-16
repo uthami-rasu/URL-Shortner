@@ -1,6 +1,10 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
 const ChartWrapper = ({ children, Title, BottomTitle }) => {
+
+
+ 
   return (
     <div
       className="flex flex-col gap-1 w-full rounded-md p-3 shadow-md bg-white "

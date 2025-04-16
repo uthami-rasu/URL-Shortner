@@ -11,14 +11,16 @@ import { useNavigate } from "react-router-dom";
 import { createShortUrl } from "../Utils/api";
 
 import { print as MessagePrint } from "../Utils/print";
+import { Bounce, toast } from "react-toastify";
 const LinkGenrators = () => {
   const shortDestination = useSelector(
     (store) => store.urls?.short_link_destination
   );
   const qrDestination = useSelector((store) => store.urls?.qr_destination);
-
   const qrError = useSelector((store) => store.urls?.qr_error);
   const ShortLinkError = useSelector((store) => store.urls?.short_link_error);
+
+  const userObj = useSelector((store) => store.auth.user);
   const dispatch = useDispatch();
   console.log("Urls", shortDestination, qrDestination);
   const [shortUrlActive, setShortUrlActive] = useState(true);
@@ -54,6 +56,23 @@ const LinkGenrators = () => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+
+    if (!userObj?.isLogin) {
+      toast.error("please login first", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
+      setTimeout(() => {
+        navigate("/auth/login");
+      }, 1000);
+    }
 
     try {
       const idToken = await auth.currentUser.getIdToken();
@@ -218,7 +237,7 @@ const LinkGenrators = () => {
               {shortUrlActive ? ShortLinkError : qrError}
             </span>
             <button
-              className={`flex items-center px-4 py-2 justify-between bg-blue-700 rounded-2xl text-lg text-white font-semibold text-center md:w-1/2 lg:text-xl lg:py-4
+              className={`flex items-center px-4 py-2 cursor-pointer justify-between bg-blue-700 rounded-2xl text-lg text-white font-semibold text-center md:w-1/2 lg:text-xl lg:py-4
               ${!shortUrlActive ? "w-12/12" : "lg :w-4/6"}
               `}
             >

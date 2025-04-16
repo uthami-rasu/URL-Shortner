@@ -1,15 +1,48 @@
 import React from "react";
-import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  ResponsiveContainer,
+  Sector,
+} from "recharts";
 import ChartShimmer from "../sub-components/ChartShimmer";
 
-const countryData = [
+const dummyData = [
   { name: "India", value: 20 },
   { name: "USA", value: 15 },
   { name: "UAE", value: 15 },
+  { name: "UK", value: 7 },
 ];
 
-// You can define your own colors
+const RADIAN = Math.PI / 180;
+const renderCustomizedLabel = ({
+  cx,
+  cy,
+  midAngle,
+  innerRadius,
+  outerRadius,
+  percent,
+  index,
+  name,
+}) => {
+  const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+  const x = cx + radius * Math.cos(-midAngle * RADIAN);
+  const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
+  return (
+    <text
+      x={x}
+      y={y}
+      fill="white"
+      textAnchor={x > cx ? "start" : "end"}
+      dominantBaseline="end"
+    >
+      {`${(percent * 100).toFixed(0)}%`}
+    </text>
+  );
+};
 const CountryPieChart = ({ loading, data, colors }) => {
   return (
     <div className="w-full h-[350px] lg:h-[350px]">
@@ -26,8 +59,16 @@ const CountryPieChart = ({ loading, data, colors }) => {
               cy="50%"
               outerRadius={150}
               fill="#8884d8"
-              label
-              className="text-md font-bold "
+              // label={
+              //   window.innerWidth < 568
+              //     ? false
+              //     : ({ name, percent }) =>
+              //         `${name} (${(percent * 100).toFixed(0)}%)`
+              // }
+              label={renderCustomizedLabel}
+              className="text-md font-bold z-40 "
+              // Optional: Disable the active segment highlight border
+              labelLine={false}
             >
               {data?.map((entry, index) => (
                 <Cell
@@ -36,7 +77,7 @@ const CountryPieChart = ({ loading, data, colors }) => {
                 />
               ))}
             </Pie>
-            <Tooltip />
+            <Tooltip cursor={{ fill: "#ffffff00" }} />
           </PieChart>
         </ResponsiveContainer>
       )}

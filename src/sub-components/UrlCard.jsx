@@ -21,7 +21,7 @@ const UrlCard = ({ shortUrl, originalUrl, name, createdAt, styles }) => {
             src="https://www.google.com/s2/favicons?domain=uthami-rasu.web.app"
           />
         </div> */}
-        <div className="relative w-full left-10 flex px-1 flex-col pb-3 gap-y-3 border-b-2 my-5 border-gray-300 lg:border-0">
+        <div className="relative w-full left-10 flex px-1 flex-col pb-1 gap-y-3  my-2 border-gray-300 lg:border-0">
           <span className="absolute flex items-center justify-center top-[-3px] left-[-50px] h-11 w-11 border-2 border-gray-300 rounded-[50%]">
             <img
               className=" h-9 "
@@ -66,6 +66,7 @@ const UrlCard = ({ shortUrl, originalUrl, name, createdAt, styles }) => {
           </div>
         </div>
       </div>
+      <hr className="bg-gray-300 border border-gray-300 my-3 lg:hidden" />
 
       <div className="w-full flex items-center justify-between py-1 lg:grow-1 gap-x-2 font-[Lato]  md:w-6/12 md:self-end md:basis-1 lg:self-start lg:mt-4">
         <button className="flex items-center font-medium p-1 rounded-xs grow-1 hover:bg-gray-300 bg-gray-200 justify-center gap-x-1 font-[Lato]">

@@ -35,4 +35,40 @@ const BAR_COLORS = [
     "#A3E635", "#FACC15", "#FB923C", "#F43F5E",
     "#A855F7", "#6366F1"
 ];
-export { cardData, COLORS_PALETTE_1, COLORS_PALETTE_2, BAR_COLORS };
+
+
+
+const demoVisitorsData = [
+    { name: 'Google', value: 400 },
+    { name: 'Facebook', value: 300 },
+    { name: 'Instagram', value: 200 },
+    { name: 'Twitter', value: 100 },
+    { name: 'LinkedIn', value: 50 }
+];
+
+
+const demoCountryData = [
+    { name: 'United States', value: 1200 },
+    { name: 'India', value: 950 },
+    { name: 'Germany', value: 700 },
+    { name: 'Brazil', value: 500 },
+    { name: 'Australia', value: 350 }
+];
+
+const demoDeviceData = [
+    { name: 'Desktop', value: 1500 },
+    { name: 'Mobile', value: 2200 },
+    { name: 'Tablet', value: 600 },
+    { name: 'Smart TV', value: 150 },
+    { name: 'Console', value: 50 }
+];
+const demoBrowserData = [
+    { name: 'Chrome', value: 1800 },
+    { name: 'Safari', value: 800 },
+    { name: 'Firefox', value: 400 },
+    { name: 'Edge', value: 300 },
+    { name: 'Opera', value: 100 }
+];
+
+
+export { cardData, COLORS_PALETTE_1, COLORS_PALETTE_2, BAR_COLORS, demoVisitorsData, demoCountryData, demoBrowserData, demoDeviceData };

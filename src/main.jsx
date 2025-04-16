@@ -10,6 +10,8 @@ import Analytics from "./components/Analytics.jsx";
 import About from "./Pages/About.jsx";
 import Login from "./Pages/Login.jsx";
 import Signin from "./Pages/Signin.jsx";
+import Redirect from "./Pages/Redirect.jsx";
+import ErrorPage from "./Pages/ErrorPage.jsx";
 
 const appRouter = createBrowserRouter([
   {
@@ -37,6 +39,7 @@ const appRouter = createBrowserRouter([
         element: <About />,
       },
     ],
+    errorElement: <ErrorPage />,
   },
   {
     path: "/auth/login",
@@ -45,6 +48,11 @@ const appRouter = createBrowserRouter([
   {
     path: "/auth/signin",
     element: <Signin />,
+  },
+  {
+    path: "/r/:shorturl",
+    element: <Redirect />,
+    errorElement: <ErrorPage />,
   },
 ]);
 
