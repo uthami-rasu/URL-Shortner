@@ -35,10 +35,10 @@ const UrlCard = ({ shortUrl, originalUrl, name, createdAt, styles }) => {
           <h1 className="text-2xl font-semibold">{name || "No Title"}</h1>
           <a
             className="text-base text-blue-700 font-medium underline"
-            href={`http://localhost:5173/r/${shortUrl}`}
+            href={`http://dev-razzly.web.app/r/${shortUrl}`}
             target="_blank"
           >
-            <u> {"dev-razzly/r/" + shortUrl}</u>
+            <u> {"razzly/" + shortUrl}</u>
           </a>
           <p className="w-11/12">
             <a
