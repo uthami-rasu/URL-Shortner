@@ -4,7 +4,7 @@ import { HashLoader } from "react-spinners";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
-const RAZZLY_ENDPOINT = "https://razzly-backend.onrender.com";
+const RAZZLY_ENDPOINT = import.meta.env.VITE_RAZZLY_BACKEND_ENDPOINT;
 
 const Redirect = () => {
   const { shorturl = null } = useParams();

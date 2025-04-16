@@ -22,7 +22,7 @@
 
 # Pending
 
-- Copy functionalitie
+- Copy functionalitie -done
 - Qr Creation , Types of url
 - Show Qr Code
 - about page

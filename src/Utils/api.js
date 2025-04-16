@@ -1,7 +1,7 @@
 import axios from "axios";
 import { auth } from "./firebase";
 
-const RAZZLY_ENDPOINT = "https://razzly-backend.onrender.com";
+const RAZZLY_ENDPOINT = import.meta.env.VITE_RAZZLY_BACKEND_ENDPOINT;
 const fetchShortLinks = async (
     fromDate,
     toDate
@@ -54,10 +54,11 @@ const fetchData = async (selectedOptions = []) => {
 // 1. url convertion 
 
 const API_ENDPOINT = RAZZLY_ENDPOINT + "/api/v1/short_url";
-const createShortUrl = async (url, idToken, title) => {
+const createShortUrl = async (url, idToken, title, urlType) => {
     try {
 
         const response = await axios.post(API_ENDPOINT, {
+            urlType: urlType,
             longUrl: url,
             title: title
 

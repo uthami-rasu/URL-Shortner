@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   CalenderIcon,
   FilterIcon,
@@ -6,9 +6,32 @@ import {
 } from "../sub-components/SvgStore";
 import UrlCard from "../sub-components/UrlCard";
 import { useSelector } from "react-redux";
+import NothingToDisplay from "../sub-components/Display";
 
 const ListView = () => {
   const urlLists = useSelector((store) => store?.urls.urlLists);
+
+  const [searchValue, setSearchValue] = useState("");
+
+  const [tempUrlLists, setTempUrlLists] = useState([]);
+
+  const handleChange = (e) => {
+    setSearchValue(e.target.value);
+  };
+
+  useEffect(() => {
+    const results = urlLists?.filter((e, i) => {
+      if (e.name.toLowerCase().includes(searchValue.toLowerCase())) {
+        return e;
+      }
+    });
+    if (!results) {
+      setTempUrlLists(urlLists);
+      return;
+    }
+
+    setTempUrlLists(results);
+  }, [searchValue]);
 
   return (
     <div className="w-full lg:w-11/12 mx-auto p-5 flex flex-col items-center">
@@ -21,6 +44,7 @@ const ListView = () => {
               className="flex w-full font-[Lato]  pl-2 py-1.5 outline-0 font-medium "
               type="search"
               placeholder="Search Links..."
+              onChange={handleChange}
             />
           </div>
 
@@ -37,11 +61,13 @@ const ListView = () => {
         </div>
       </div>
       <div className="w-full p-2 flex flex-col gap-y-7 ">
-        {urlLists && urlLists.length > 0
-          ? urlLists.map((u) => {
-              return <UrlCard {...u} styles={"mt-5"} />;
-            })
-          : "Nothing to Display"}
+        {tempUrlLists && tempUrlLists.length > 0 ? (
+          tempUrlLists.map((u, i) => {
+            return <UrlCard {...u} key={`${i + u.shortUrl}`} styles={"mt-5"} />;
+          })
+        ) : (
+          <NothingToDisplay />
+        )}
       </div>
     </div>
   );

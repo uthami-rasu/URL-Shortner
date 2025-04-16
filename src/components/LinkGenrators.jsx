@@ -94,7 +94,12 @@ const LinkGenrators = () => {
           return;
         }
 
-        const result = await createShortUrl(shortDestination, idToken);
+        const result = await createShortUrl(
+          shortDestination,
+          idToken,
+          "",
+          "short_link"
+        );
 
         // pop up message
         MessagePrint();
@@ -114,7 +119,7 @@ const LinkGenrators = () => {
           );
           return;
         }
-        const result = await createShortUrl(qrDestination, idToken);
+        const result = await createShortUrl(qrDestination, idToken, "", "qr");
 
         // pop up message
         MessagePrint();

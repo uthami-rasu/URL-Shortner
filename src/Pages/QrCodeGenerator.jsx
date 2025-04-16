@@ -109,7 +109,8 @@ const QrCodeGenerator = () => {
         const result = await createShortUrl(
           shortDestination,
           idToken,
-          title.shortLinkTitle
+          title.shortLinkTitle,
+          "short_link"
         );
 
         // pop up message
@@ -129,7 +130,8 @@ const QrCodeGenerator = () => {
         const result = await createShortUrl(
           qrDestination,
           idToken,
-          title.qrTitle
+          title.qrTitle,
+          "qr"
         );
 
         // pop up message

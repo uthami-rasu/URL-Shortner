@@ -1,3 +1,5 @@
+import { Bounce, toast } from "react-toastify";
+
 const isValidUrl = (url) => {
 
     const urlPattern = new RegExp('^(https?:\\/\\/)' + // http:// or https://
@@ -71,5 +73,26 @@ const fillMissedDates = (data) => {
 //     return formattedData;
 // };
 
+const copyToClibBoard = (message) => {
+    navigator.clipboard.writeText(message).then(() => {
+        console.log('Text copied to clipboard');
+        toast.info('Text copied to clipboard', {
+            position: "bottom-right",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Bounce,
+        });
+    }).catch(err => {
+        console.error('Failed to copy text: ', err);
+    });
 
-export { isValidUrl, fillMissedDates };
+}
+
+
+
+export { isValidUrl, fillMissedDates, copyToClibBoard };
