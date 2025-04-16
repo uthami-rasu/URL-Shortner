@@ -20,18 +20,16 @@ const ListView = () => {
   };
 
   useEffect(() => {
-    const results = urlLists?.filter((e, i) => {
-      if (e.name.toLowerCase().includes(searchValue.toLowerCase())) {
-        return e;
-      }
-    });
-    if (!results) {
+    if (!searchValue.trim()) {
       setTempUrlLists(urlLists);
       return;
     }
+    const results = urlLists?.filter((e, i) => {
+      return e.name.toLowerCase().includes(searchValue.toLowerCase());
+    });
 
     setTempUrlLists(results);
-  }, [searchValue]);
+  }, [searchValue, urlLists]);
 
   return (
     <div className="w-full lg:w-11/12 mx-auto p-5 flex flex-col items-center">

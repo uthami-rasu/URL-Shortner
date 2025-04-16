@@ -1,3 +1,4 @@
+import { HashLoader } from "react-spinners";
 import UrlCardShimmer from "../sub-components/UrlCardShimmer";
 
 const ListViewShimmer = () => {
@@ -17,7 +18,10 @@ const ListViewShimmer = () => {
       <div className="w-full p-2 flex flex-col gap-y-8 text-center">
         <UrlCardShimmer styles={"mt-5"} />
         <UrlCardShimmer />
-        <div className="text-lg font-medium font-[Poppins]">Loading...</div>
+        <div className="text-lg font-medium flex gap-x-2 items-center justify-center font-[Poppins]">
+          <HashLoader color={"red"} size={15} />
+          Loading...
+        </div>
       </div>
     </div>
   );
