@@ -12,6 +12,7 @@ import Login from "./Pages/Login.jsx";
 import Signin from "./Pages/Signin.jsx";
 import Redirect from "./Pages/Redirect.jsx";
 import ErrorPage from "./Pages/ErrorPage.jsx";
+import StyledQR from "./Pages/QrTest.jsx";
 
 const appRouter = createBrowserRouter([
   {
@@ -53,6 +54,10 @@ const appRouter = createBrowserRouter([
     path: "/r/:shorturl",
     element: <Redirect />,
     errorElement: <ErrorPage />,
+  },
+  {
+    path: "/test",
+    element: <StyledQR />,
   },
 ]);
 

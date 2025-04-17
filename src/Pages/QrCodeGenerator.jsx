@@ -16,6 +16,8 @@ import ListView from "../components/ListView";
 import { useQuery } from "@tanstack/react-query";
 import ListViewShimmer from "../components/ListViewShimmer";
 import { Bounce, toast } from "react-toastify";
+import QrPopup from "../components/QrPopup";
+import { updateQrPopup } from "../Utils/popupSlice";
 const QrCodeGenerator = () => {
   // make an api call
   const [dateRange, setDateRange] = useState({
@@ -28,6 +30,8 @@ const QrCodeGenerator = () => {
   });
   const userObj = useSelector((store) => store.auth.user);
   const bgColor = useSelector((store) => store.colors.bgColor);
+
+  const qr = useSelector((store) => store.popups.qr);
   const inputRef = useRef();
   const shortDestination = useSelector(
     (store) => store.urls?.short_link_destination
@@ -67,6 +71,32 @@ const QrCodeGenerator = () => {
     }
     isUrlValid(e.target.value);
     dispatch(updateQrDestination(e.target.value));
+  };
+
+  const handleCreateQrCode = async (idToken) => {
+    try {
+      // Call createShortUrl and wait for the response (this will trigger the toast)
+      const response = await toast.promise(
+        createShortUrl(qrDestination, idToken, title.qrTitle, "qr"),
+        {
+          pending: "Creating QR Code...", // Text while the promise is pending
+          success: "QR Code created successfully!", // Text when the promise resolves successfully
+          error: "Failed to create QR Code", // Text when the promise is rejected
+        }
+      );
+
+      dispatch(
+        updateQrPopup({
+          isQrOpen: true,
+          currTitle: title.qrTitle,
+          currQrLink: response.shortUrl,
+        })
+      );
+
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleFormSubmit = async (e) => {
@@ -127,15 +157,8 @@ const QrCodeGenerator = () => {
           );
           return;
         }
-        const result = await createShortUrl(
-          qrDestination,
-          idToken,
-          title.qrTitle,
-          "qr"
-        );
 
-        // pop up message
-        MessagePrint();
+        handleCreateQrCode(idToken);
       }
     } catch (err) {
       console.log(err);
@@ -163,7 +186,7 @@ const QrCodeGenerator = () => {
         backgroundImage: "url(/stars.svg)",
         animation: "bgScale 1s infinite alternate",
       }}
-      className={`mt-30 h-[100%]  bg-[${bgColor}] bg-no-repeat bg-contain bg-[50%_10%] md:bg-[50%_2%] `}
+      className={`relative mt-30 h-[100%]  bg-[${bgColor}] bg-no-repeat bg-contain bg-[50%_10%] md:bg-[50%_2%] `}
     >
       <main className="relative w-full h-full flex flex-col">
         <div className="relative top-1/9 left-1/2 p-4 transform -translate-x-1/2 w-11/12 text-white font-[Lato] text-center flex flex-col gap-6 lg:w-9/12">
@@ -304,6 +327,7 @@ const QrCodeGenerator = () => {
       <main className="w-full bg-gray-200">
         {isLoading || error ? <ListViewShimmer /> : <ListView />}
       </main>
+      {qr.isQrOpen && <QrPopup />}
     </section>
   );
 };

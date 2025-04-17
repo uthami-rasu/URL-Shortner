@@ -69,11 +69,13 @@ const createShortUrl = async (url, idToken, title, urlType) => {
             }
         })
         console.log(response)
-        return response;
+        return response.data;
     } catch (err) {
         console.error(err)
+        throw new Error("something went wrong")
     }
 
 }
+
 
 export { fetchData, createShortUrl, fetchShortLinks };

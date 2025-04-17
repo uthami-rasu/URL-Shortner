@@ -5,6 +5,7 @@ import urlReducer from "./urlSlice";
 import authReducer from "./authSlice";
 import analysisReducer from "./analysis"
 import filterReducer from "./filterSlice";
+import popupReducer from "./popupSlice"
 const appStore = configureStore({
     reducer: {
         colors: colorReducer,
@@ -12,7 +13,8 @@ const appStore = configureStore({
         auth: authReducer,
         analysis: analysisReducer,
         filters: filterReducer,
-        
+        popups: popupReducer
+
     }
 })
 

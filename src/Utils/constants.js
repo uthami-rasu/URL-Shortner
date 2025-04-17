@@ -70,5 +70,45 @@ const demoBrowserData = [
     { name: 'Opera', value: 100 }
 ];
 
+const qrConfig = {
+    type: "canvas",
+    shape: "square",
+    width: 250,
+    height: 250,
+    data: "",
+    margin: 5,
+    qrOptions: {
+        typeNumber: "0",
+        mode: "Byte",
+        errorCorrectionLevel: "Q",
+    },
+    imageOptions: {
+        saveAsBlob: true,
+        hideBackgroundDots: true,
+        imageSize: 0.3,
+        margin: 0,
+    },
+    dotsOptions: {
+        type: "rounded",
+        color: "#000",
+        roundSize: true,
+    },
+    backgroundOptions: {
+        round: 0,
+        color: "#ffffff",
+    },
+    image:
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Red_trademark.svg/1024px-Red_trademark.svg.png",
 
-export { cardData, COLORS_PALETTE_1, COLORS_PALETTE_2, BAR_COLORS, demoVisitorsData, demoCountryData, demoBrowserData, demoDeviceData };
+    cornersSquareOptions: {
+        type: "rounded",
+        color: "red",
+    },
+    cornersDotOptions: {
+        type: "",
+        color: "red",
+    },
+};
+
+
+export { qrConfig, cardData, COLORS_PALETTE_1, COLORS_PALETTE_2, BAR_COLORS, demoVisitorsData, demoCountryData, demoBrowserData, demoDeviceData };
