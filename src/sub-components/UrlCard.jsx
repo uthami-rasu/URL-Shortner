@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   AnalyticsBar,
   CalenderIcon,
@@ -9,9 +9,19 @@ import {
   DotsIcon,
 } from "./SvgStore";
 import { copyToClibBoard } from "../Utils/utils";
+import { useDispatch, useSelector } from "react-redux";
+import { updateQrPopup } from "../Utils/popupSlice";
 
 const UrlCard = ({ shortUrl, originalUrl, name, createdAt, styles }) => {
   const [copy, setIsCopy] = useState("Copy");
+
+  const [isDotsOpen, setIsDotsOpen] = useState(false);
+
+  const qr = useSelector((store) => store.popups.qr);
+
+  const [localQr, setLocalQr] = useState(false);
+
+  const dispatch = useDispatch();
 
   const hanldeCopy = () => {
     setIsCopy("Copied");
@@ -20,9 +30,37 @@ const UrlCard = ({ shortUrl, originalUrl, name, createdAt, styles }) => {
       setIsCopy("Copy");
     }, 2000);
   };
+
+  const handleQrOpen = () => {
+    dispatch(
+      updateQrPopup({
+        isQrOpen: true,
+        currTitle: name,
+        currQrLink: shortUrl,
+      })
+    );
+    setIsDotsOpen(false);
+  };
+  const handleDotsOpen = () => {
+    setIsDotsOpen(!isDotsOpen);
+  };
+
+  useEffect(() => {
+    if (!localQr) {
+      return;
+    }
+
+    dispatch(
+      updateQrPopup({
+        isQrOpen: true,
+        currTitle: qr.currTitle,
+        currQrLink: "https://dev-razzly.web.app/r/" + shortUrl,
+      })
+    );
+  }, [localQr]);
   return (
     <div
-      className={`w-full flex flex-col lg:flex-row  mx-auto bg-white py-4 px-5 font-[Poppins] ${styles}`}
+      className={`relative w-full flex flex-col lg:flex-row  mx-auto bg-white py-4 px-5 font-[Poppins] ${styles}`}
     >
       <div className="flex p-1 lg:w-9/12">
         <div className="relative w-full left-10 flex text-wrap px-1 flex-col pb-1 gap-y-3  my-2 border-gray-300 lg:border-0 ">
@@ -94,12 +132,28 @@ const UrlCard = ({ shortUrl, originalUrl, name, createdAt, styles }) => {
         <button className="flex items-center p-2 rounded-xs  border md:grow-0.5 hover:bg-gray-100 border-gray-300 justify-center gap-x-1">
           <EditIcon />
         </button>
-        <button className="flex items-center p-2 rounded-xs  border md:grow-0.5 hover:bg-gray-100 border-gray-300 justify-center gap-x-1">
+        <button
+          onClick={handleDotsOpen}
+          className="flex cursor-pointer items-center p-2 rounded-xs  border md:grow-0.5 hover:bg-gray-100 border-gray-300 justify-center gap-x-1"
+        >
           <span>
             <DotsIcon />
           </span>
         </button>
       </div>
+      {isDotsOpen && (
+        <div className="absolute bottom-18  right-5 flex flex-col w-3/12 bg-white/98 border text-center mx-auto border-gray-300 p-1">
+          <button
+            onClick={handleQrOpen}
+            className="border-b hover:bg-gray-100 cursor-pointer text-black p-1 border-gray-300"
+          >
+            View Qr Code
+          </button>
+          <button className="border-0 p-1 cursor-pointer text-black border-gray-300">
+            Delete
+          </button>
+        </div>
+      )}
     </div>
   );
 };

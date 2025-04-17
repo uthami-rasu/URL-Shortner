@@ -4,6 +4,8 @@ import { NavLink, useNavigate } from "react-router-dom";
 import GoogleSvg from "../sub-components/GoogleSvg";
 import { useDispatch, useSelector } from "react-redux";
 import { signIn } from "../Utils/authentication";
+import { auth, provider } from "../Utils/firebase";
+import { signInWithPopup } from "firebase/auth";
 
 const Login = () => {
   const isLogin = useSelector((store) => store.auth.user?.isLogin);
@@ -17,6 +19,21 @@ const Login = () => {
       navigate("/");
     }
   }, []);
+
+  const signInWithGoogle = async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      console.log("User Info:", user);
+
+      navigate("/");
+
+      // Save user to DB or state
+    } catch (error) {
+      console.error("Error during Google Sign-In", error);
+    }
+  };
+
   const [userInput, setUserInput] = useState({
     email: "",
     password: "",
@@ -115,10 +132,13 @@ const Login = () => {
               </h3>
             </div>
             <div className="mt-7 font-[Poppins]">
-              <div className="flex gap-x-1 gap-y-2 border h-9 rounded-md border-gray-300 py-3 justify-center items-center">
+              <button
+                onClick={signInWithGoogle}
+                className="flex w-full cursor-pointer hover:bg-gray-50 gap-x-1 gap-y-2 border h-9 rounded-md border-gray-300 py-3 justify-center items-center"
+              >
                 <GoogleSvg />
                 <h3>Continue with Google</h3>
-              </div>
+              </button>
             </div>
           </div>
         </div>

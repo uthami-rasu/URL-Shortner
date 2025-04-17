@@ -4,6 +4,9 @@ import { NavLink, useNavigate } from "react-router-dom";
 import GoogleSvg from "../sub-components/GoogleSvg";
 
 import { signIn, signUp } from "./../Utils/authentication";
+import { signInWithPopup } from "firebase/auth";
+import { auth, provider } from "../Utils/firebase";
+
 const Signin = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -11,12 +14,27 @@ const Signin = () => {
     email: "",
     password: "",
   });
+
   // create use ref
   const usernameRef = useRef("");
   const emailRef = useRef("");
   const passwordRef = useRef("");
 
   const navigate = useNavigate();
+
+  const signInWithGoogle = async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      console.log("User Info:", user);
+
+      navigate("/");
+
+      // Save user to DB or state
+    } catch (error) {
+      console.error("Error during Google Sign-In", error);
+    }
+  };
 
   const handleInputChange = (e) => {
     setUserInput((prev) => ({
@@ -71,10 +89,13 @@ const Signin = () => {
                 </h3>
               </div>
               <div className="mt-7 font-[Poppins]">
-                <div className="flex gap-x-1 gap-y-2 border h-9 rounded-md border-gray-300 py-3 justify-center items-center">
+                <button
+                  onClick={signInWithGoogle}
+                  className="flex w-full cursor-pointer outline-0 gap-x-1 gap-y-2 border h-9 rounded-md border-gray-300 py-3 justify-center items-center"
+                >
                   <GoogleSvg />
                   <h3>Continue with Google</h3>
-                </div>
+                </button>
               </div>
             </div>
             <form onSubmit={handleFormSubmit}>
