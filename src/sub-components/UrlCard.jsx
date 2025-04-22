@@ -142,7 +142,7 @@ const UrlCard = ({ shortUrl, originalUrl, name, createdAt, styles }) => {
         </button>
       </div>
       {isDotsOpen && (
-        <div className="absolute bottom-18  right-5 flex flex-col w-3/12 bg-white/98 border text-center mx-auto border-gray-300 p-1">
+        <div className="absolute bottom-18 h-20 right-5 flex flex-col w-3/12 bg-white/98 border text-center mx-auto border-gray-300 p-1 lg:top-20 lg:bottom-30 lg:w-2/12">
           <button
             onClick={handleQrOpen}
             className="border-b hover:bg-gray-100 cursor-pointer text-black p-1 border-gray-300"
