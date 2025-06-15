@@ -13,7 +13,8 @@ import Signin from "./Pages/Signin.jsx";
 import Redirect from "./Pages/Redirect.jsx";
 import ErrorPage from "./Pages/ErrorPage.jsx";
 import StyledQR from "./Pages/QrTest.jsx";
-
+import ForgetPassword from "./Pages/ForgetPassword.jsx";
+import Print from "./sub-components/Print.jsx";
 const appRouter = createBrowserRouter([
   {
     path: "/",
@@ -51,6 +52,10 @@ const appRouter = createBrowserRouter([
     element: <Signin />,
   },
   {
+    path: "/auth/forgot-password",
+    element: <ForgetPassword />, // Assuming you want to use the Login component for forget password
+  },
+  {
     path: "/r/:shorturl",
     element: <Redirect />,
     errorElement: <ErrorPage />,
@@ -63,6 +68,7 @@ const appRouter = createBrowserRouter([
 
 createRoot(document.getElementById("root")).render(
   <Provider store={appStore}>
+    <Print />
     <RouterProvider router={appRouter} />
   </Provider>
 );

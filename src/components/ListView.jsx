@@ -7,6 +7,9 @@ import {
 import UrlCard from "../sub-components/UrlCard";
 import { useSelector } from "react-redux";
 import NothingToDisplay from "../sub-components/Display";
+import { Bounce, toast } from "react-toastify";
+import { naNodify } from "../Utils/utils";
+
 
 const ListView = () => {
   const urlLists = useSelector((store) => store?.urls.urlLists);
@@ -31,6 +34,7 @@ const ListView = () => {
     setTempUrlLists(results);
   }, [searchValue, urlLists]);
 
+
   return (
     <div className="w-full lg:w-11/12 mx-auto p-5 flex flex-col items-center">
       <div className="w-full flex flex-col justify-between gap-x-2 gap-y-4 ">
@@ -47,11 +51,17 @@ const ListView = () => {
           </div>
 
           <div className="flex w-full justify-between  items-center lg:justify-start gap-x-1 lg:gap-x-3">
-            <button className="flex justify-center font-semibold rounded-xs gap-x-2 items-center p-2 px-3 border-2 border-gray-300 bg-white hover:bg-transparent">
+            <button
+              onClick={naNodify}
+              className="flex justify-center font-semibold rounded-xs gap-x-2 items-center p-2 px-3 border-2 border-gray-300 bg-white hover:bg-transparent"
+            >
               <CalenderIcon />
               Filter by created date
             </button>
-            <button className="flex justify-center font-semibold rounded-xs gap-x-2 items-center p-2 px-3 border-2 border-gray-300 bg-white hover:bg-transparent">
+            <button
+              onClick={naNodify}
+              className="flex justify-center font-semibold rounded-xs gap-x-2 items-center p-2 px-3 border-2 border-gray-300 bg-white hover:bg-transparent"
+            >
               <FilterIcon />
               Add filters
             </button>

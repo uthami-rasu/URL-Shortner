@@ -65,7 +65,7 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Print />
+    
       <div className={`w-full  flex flex-col h-auto bg-[${bgColor}]`}>
         <Header />
         <div className="flex-grow">

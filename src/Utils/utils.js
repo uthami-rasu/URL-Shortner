@@ -87,6 +87,18 @@ const copyToClibBoard = (message) => {
 
 }
 
+const naNodify = () => {
+    toast("Feature Not Available", {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
+    });
+};
 
-
-export { isValidUrl, fillMissedDates, copyToClibBoard };
+export { isValidUrl, fillMissedDates, copyToClibBoard, naNodify };

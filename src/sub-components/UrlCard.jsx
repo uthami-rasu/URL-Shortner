@@ -8,14 +8,19 @@ import {
   EditIcon,
   DotsIcon,
 } from "./SvgStore";
-import { copyToClibBoard } from "../Utils/utils";
+import { copyToClibBoard, naNodify } from "../Utils/utils";
 import { useDispatch, useSelector } from "react-redux";
 import { updateQrPopup } from "../Utils/popupSlice";
+import { useNavigate } from "react-router-dom";
+import { setSelectedOptions } from "../Utils/filterSlice";
+import { label } from "framer-motion/client";
 
 const UrlCard = ({ shortUrl, originalUrl, name, createdAt, styles }) => {
   const [copy, setIsCopy] = useState("Copy");
 
   const [isDotsOpen, setIsDotsOpen] = useState(false);
+
+  const navigate = useNavigate();
 
   const qr = useSelector((store) => store.popups.qr);
 
@@ -43,6 +48,11 @@ const UrlCard = ({ shortUrl, originalUrl, name, createdAt, styles }) => {
   };
   const handleDotsOpen = () => {
     setIsDotsOpen(!isDotsOpen);
+  };
+
+  const redirectToAnalytics = (data) => {
+    dispatch(setSelectedOptions(data));
+    navigate("/analytics");
   };
 
   useEffect(() => {
@@ -90,11 +100,19 @@ const UrlCard = ({ shortUrl, originalUrl, name, createdAt, styles }) => {
           </p>
 
           <div className="flex flex-col gap-y-1">
-            <h3 className="text-md flex items-center p-1 rounded-xs  gap-x-1">
+            <h3
+              className="text-md flex items-center p-1 rounded-xs  gap-x-1 cursor-pointer"
+              onClick={() =>
+                redirectToAnalytics({
+                  value: shortUrl,
+                  label: name ?? "No Title",
+                })
+              }
+            >
               <span>
                 <AnalyticsBar height={19} width={19} />
               </span>
-              Click Data
+              Click to view Data
             </h3>
             <h4 className=" flex items-center p-1 rounded-xs  gap-x-1 text-base">
               <span>
@@ -123,13 +141,19 @@ const UrlCard = ({ shortUrl, originalUrl, name, createdAt, styles }) => {
           </span>
           {copy}
         </button>
-        <button className="flex items-center p-1 cursor-pointer rounded-xs border md:grow-1 hover:bg-gray-100 border-gray-300 justify-center gap-x-1">
+        <button
+          onClick={naNodify}
+          className="flex items-center p-1 cursor-pointer rounded-xs border md:grow-1 hover:bg-gray-100 border-gray-300 justify-center gap-x-1"
+        >
           <span>
             <ShareIcon />
           </span>
           Share
         </button>
-        <button className="flex items-center p-2 rounded-xs  border md:grow-0.5 hover:bg-gray-100 border-gray-300 justify-center gap-x-1">
+        <button
+          onClick={naNodify}
+          className="flex items-center p-2 rounded-xs  border md:grow-0.5 hover:bg-gray-100 border-gray-300 justify-center gap-x-1"
+        >
           <EditIcon />
         </button>
         <button
@@ -149,7 +173,10 @@ const UrlCard = ({ shortUrl, originalUrl, name, createdAt, styles }) => {
           >
             View Qr Code
           </button>
-          <button className="border-0 p-1 cursor-pointer text-black border-gray-300">
+          <button
+            onClick={naNodify}
+            className="border-0 p-1 cursor-pointer text-black border-gray-300"
+          >
             Delete
           </button>
         </div>

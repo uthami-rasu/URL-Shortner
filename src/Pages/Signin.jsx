@@ -6,6 +6,7 @@ import GoogleSvg from "../sub-components/GoogleSvg";
 import { signIn, signUp } from "./../Utils/authentication";
 import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "../Utils/firebase";
+import { Bounce, toast } from "react-toastify";
 
 const Signin = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -37,10 +38,28 @@ const Signin = () => {
   };
 
   const handleInputChange = (e) => {
+
+    
     setUserInput((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
+  };
+
+  const isInputValid = (data) => {
+    const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data?.email || "");
+    const isPasswordValid = !!data?.password;
+
+    return isEmailValid && isPasswordValid;
+  };
+
+  const handleInputFocus = () => {
+    [usernameRef, passwordRef, emailRef].map((e) => {
+      if (e.current?.value === "") {
+        e.current?.focus();
+        e.current.style.borderColor = "red";
+      }
+    });
   };
 
   const handleFormSubmit = async (e) => {
@@ -48,6 +67,23 @@ const Signin = () => {
     e.preventDefault();
 
     try {
+      if (!isInputValid(userInput)) {
+        console.log("invalid input");
+        toast.error("please enter valid details", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+
+        handleInputFocus();
+        return;
+      }
       await signUp(userInput);
       console.log("user");
       setTimeout(() => {
@@ -146,7 +182,10 @@ const Signin = () => {
                   {/* <span>Error</span> */}
                 </div>
                 <div className="text-right text-md mt-5 md:mt-7">
-                  <NavLink to="/fp" className="text-blue-800 underline">
+                  <NavLink
+                    to="/auth/forgot-password"
+                    className="text-blue-800 underline"
+                  >
                     <u>Forgot your password ?</u>
                   </NavLink>
                 </div>

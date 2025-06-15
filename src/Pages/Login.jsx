@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { signIn } from "../Utils/authentication";
 import { auth, provider } from "../Utils/firebase";
 import { signInWithPopup } from "firebase/auth";
+import { Bounce, toast } from "react-toastify";
 
 const Login = () => {
   const isLogin = useSelector((store) => store.auth.user?.isLogin);
@@ -43,11 +44,34 @@ const Login = () => {
     setUserInput((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  const isInputValid = (data) => {
+    const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data?.email || "");
+    const isPasswordValid = !!data?.password;
+
+    return isEmailValid && isPasswordValid;
+  };
+
   const handleSubmit = async (e) => {
-    setIsLoading(true);
     e.preventDefault();
+    setIsLoading(true);
 
     try {
+      if (!isInputValid(userInput)) {
+        console.log("invalid input");
+        toast.error("please enter valid credentials", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+
+        return;
+      }
       const user = await signIn(userInput.email, userInput.password);
 
       setTimeout(() => {
@@ -107,7 +131,10 @@ const Login = () => {
                   {/* <span>Error</span> */}
                 </div>
                 <div className="text-right text-md mt-5 md:mt-7">
-                  <NavLink to="/fp" className="text-blue-800 underline">
+                  <NavLink
+                    to="/auth/forgot-password"
+                    className="text-blue-800 underline"
+                  >
                     <u>Forgot your password ?</u>
                   </NavLink>
                 </div>
@@ -117,7 +144,7 @@ const Login = () => {
                   </span>
                 )}
                 <div className="w-full mt-5 ">
-                  <button className="w-full bg-blue-700 p-2 rounded-md text-white font-medium text-base">
+                  <button className="w-full bg-blue-700 p-2 cursor-pointer rounded-md text-white font-medium text-base">
                     {isLoading ? "Please wait" : "Log in"}
                   </button>
                 </div>
