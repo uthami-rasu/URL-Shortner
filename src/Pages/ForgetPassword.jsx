@@ -1,11 +1,11 @@
 import { NavLink } from "react-router-dom";
-import sadIcon from "../assets/sad.png";
+// import sadIcon from "../assets/sad.png";
 
 export default function ForgetPassword() {
   return (
     <div className="flex flex-col item-scenter justify-center text-center h-screen">
       <div className="flex items-center justify-center">
-        <img src={sadIcon} alt="not-found" className="h-25 w-25 " />
+{/*         <img src={sadIcon} alt="not-found" className="h-25 w-25 " /> */}
       </div>
 
       <h1 className="text-2xl md:text-5xl font-[Lato] text-white">
